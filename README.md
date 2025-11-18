@@ -118,5 +118,4 @@ This repository will contain:
 - [ ] Enemy waves  
 - [ ] UI/UX pass  
 - [ ] Sound, animations, and VFX  
-- [ ] Save/load functionality  
 
