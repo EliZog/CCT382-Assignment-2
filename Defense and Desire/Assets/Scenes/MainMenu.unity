@@ -1889,8 +1889,8 @@ Canvas:
   m_GameObject: {fileID: 1246163878}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 961739752}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -2454,8 +2454,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd124b7c13625c74cab9889a45283fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIScrollingBackground
-  speedX: -0.1
-  speedY: 0.1
+  speedX: -0.05
+  speedY: 0.05
   tileX: 1
   tileY: 1
 --- !u!114 &1532171981
@@ -2478,7 +2478,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 8835c8308f3521647acd9b68ec75c33e, type: 3}
+  m_Texture: {fileID: 2800000, guid: efc3d23287191be449181e4826f7eb0a, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0

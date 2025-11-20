@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class UIScrollingBackground : MonoBehaviour
 {
-    public float speedX = -0.1f;
-    public float speedY = 0.1f;
+    public float speedX = -0.05f;
+    public float speedY = 0.05f;
     public float tileX = 1f;
     public float tileY = 1f;
 
