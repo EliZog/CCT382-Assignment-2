@@ -8,7 +8,6 @@ public class EnemyController : MonoBehaviour
     public NavMeshAgent agent = null;
     public Animator anim = null; 
     public EnemyStats stats = null;
-    // get enemy stats      *** why isn't this working??? ***
 
     public List<Transform> waypoints;
     private int waypointIndex = 0;
