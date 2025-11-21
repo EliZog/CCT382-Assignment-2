@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStats : MonoBehaviour
+public class EnemyStats : MonoBehaviour
 {
 
     [SerializeField] public int health;
@@ -60,13 +60,12 @@ public class CharacterStats : MonoBehaviour
 
     public void Heal(int heal)
     {
-        int healthAfterHeal = health + health;
+        int healthAfterHeal = health + heal;
         SetHealthTo(healthAfterHeal);
     }
 
     public virtual void InitVariables()
     {
-        maxHealth = 100;
         SetHealthTo(maxHealth);
         isDead = false;
     }
