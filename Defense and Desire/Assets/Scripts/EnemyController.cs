@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,8 +8,8 @@ public class EnemyController : MonoBehaviour
     public Animator anim = null; 
     public EnemyStats stats = null;
 
-    public List<Transform> waypoints;
-    private int waypointIndex = 0;
+    [SerializeField] public List<Transform> waypoints;
+    [SerializeField] private int waypointIndex = 0;
 
 
     private void Start()
