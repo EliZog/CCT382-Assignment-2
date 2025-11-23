@@ -9,6 +9,8 @@ public class EnemyStats : MonoBehaviour
     [SerializeField] public int maxHealth;
     [SerializeField] public bool isDead;
     [SerializeField] public List<EnemyTags> tags;
+
+    public int ID;
     //public GameObject LevelManager;
     //public LevelManager lm;
 
@@ -69,6 +71,7 @@ public class EnemyStats : MonoBehaviour
     {
         SetHealthTo(maxHealth);
         isDead = false;
+
     }
 
     public void StripTag(EnemyTags tag)
