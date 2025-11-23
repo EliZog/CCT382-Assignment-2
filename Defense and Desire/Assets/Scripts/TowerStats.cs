@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class TowerStats : MonoBehaviour
 {
+    public enum TowerTags {ArmourPiercing, AntiAir, ColdHearted}
+
     [SerializeField] public int cost;
     [SerializeField] public int current_value;
 
     [SerializeField] public int radius;
     [SerializeField] public int damage;
     [SerializeField] public float attackSpeed;
-    [SerializeField] public List<string> tags;
+    [SerializeField] public List<TowerTags> tags;
 
     [SerializeField] public int R_level;
     [SerializeField] public int R_bar;
@@ -30,7 +32,7 @@ public class TowerStats : MonoBehaviour
         attackSpeed -= value;
     }
 
-    void AddTag(string tag)
+    void AddTag(TowerTags tag)
     {
         tags.Add(tag);
     }

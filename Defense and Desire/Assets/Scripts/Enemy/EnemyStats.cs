@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class EnemyStats : MonoBehaviour
 {
+    public enum EnemyTags {Armoured, Flying, Charming, Vehicle, Bleeding}
 
     [SerializeField] public int health;
     [SerializeField] public int maxHealth;
     [SerializeField] public bool isDead;
-    [SerializeField] public List<string> tags;
+    [SerializeField] public List<EnemyTags> tags;
 
     public int ID;
     //public GameObject LevelManager;
@@ -71,5 +72,10 @@ public class EnemyStats : MonoBehaviour
         SetHealthTo(maxHealth);
         isDead = false;
 
+    }
+
+    public void StripTag(EnemyTags tag)
+    {
+        tags.Remove(tag);
     }
 }
