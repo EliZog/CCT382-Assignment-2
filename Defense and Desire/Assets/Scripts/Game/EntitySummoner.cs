@@ -42,13 +42,29 @@ public class EntitySumoner : MonoBehaviour
 
         if (EnemyPrefabs.ContainsKey(EnemyID))
         {
+            Queue<EnemyStats> ReferencedQueue = EnemyObjectPools[EnemyID];
 
+            if (ReferencedQueue.Count > 0)
+            {
+                // Dequeue enemy and initialize
+                SummonedEnemy = ReferencedQueue.Dequeue();
+                SummonedEnemy.InitVariables();
+            }
+            else
+            {
+                // Instantiate new instance of enemy and initialize
+                GameObject NewEnemy = Instantiate(EnemyPrefabs[EnemyID], Vector3.zero, Quaternion.identity);
+                SummonedEnemy = NewEnemy.GetComponent<EnemyStats>();
+                SummonedEnemy.InitVariables();
+            }
         }
         else
         {
             Debug.Log($"ENTITYSUMMONER: ENEMY WITH ID OF {EnemyID} DOES NOT EXIST!");
             return null;
         }
+
         return SummonedEnemy;
     }
+
 }
