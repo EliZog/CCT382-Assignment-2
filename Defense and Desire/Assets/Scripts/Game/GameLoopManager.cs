@@ -14,8 +14,20 @@ public class GameLoopManager : MonoBehaviour
     {
         EnemyIDsToSummon = new Queue<int>();
         EntitySumoner.Init();
+
+        StartCoroutine(GameLoop());
+        InvokeRepeating("SummonTest", 0f, 1f);
     }
 
+    void RemoveTest()
+    {
+        if (EntitySumoner.EnemiesInGame.Count > 0)
+        {
+            EntitySumoner.RemoveEnemy(
+                EntitySumoner.EnemiesInGame[Random.Range(0, EntitySumoner.EnemiesInGame.Count)]
+                );
+        }
+    }
     void SummonTest()
     {
         EnqueueEnemyIDToSummon(1);
