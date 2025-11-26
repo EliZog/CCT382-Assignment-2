@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class GameLoopManager : MonoBehaviour
 {
-
+    public static Vector3[] NodePositions;
+    private static Queue<EnemyStats> EnemiesToRemove;
     private static Queue<int> EnemyIDsToSummon;
 
+    public Transform NodeParent;
     public bool LoopShouldEnd;
 
     // Start
@@ -15,8 +17,15 @@ public class GameLoopManager : MonoBehaviour
         EnemyIDsToSummon = new Queue<int>();
         EntitySumoner.Init();
 
+        NodePositions = new Vector3[NodeParent.childCount];
+        for (int i = 0; i < NodePositions.Length; i++) 
+        {
+            NodePositions[i] = NodeParent.GetChild(i).position;
+        }
+
         StartCoroutine(GameLoop());
         InvokeRepeating("SummonTest", 0f, 1f);
+        InvokeRepeating("RemoveTest", 0f, 1f);
     }
 
     void RemoveTest()
@@ -59,6 +68,13 @@ public class GameLoopManager : MonoBehaviour
 
             // Remove Enemies
 
+            if (EnemiesToRemove.Count > 0) {
+                for (int i = 0; i < EnemiesToRemove.Count; i++)
+                {
+                    EntitySumoner.RemoveEnemy(EnemiesToRemove.Dequeue());
+                }
+            }
+
             // Remove Towers
 
 
@@ -70,5 +86,10 @@ public class GameLoopManager : MonoBehaviour
     public static void EnqueueEnemyIDToSummon(int ID)
     {
         EnemyIDsToSummon.Enqueue(ID);
+    }
+
+    public static void EnqueueEnemyToRemove(EnemyStats EnemyToRemove)
+    {
+        EnemiesToRemove.Enqueue(EnemyToRemove);
     }
 }

@@ -11,6 +11,7 @@ public class EnemyStats : MonoBehaviour
     [SerializeField] public List<EnemyTags> tags;
 
     public int ID;
+    public int NodeIndex;
     //public GameObject LevelManager;
     //public LevelManager lm;
 
