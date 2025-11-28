@@ -161,3 +161,5 @@ MonoBehaviour:
   isDead: 0
   tags: 
   ID: 1
+  NodeIndex: 0
+  Speed: 5
