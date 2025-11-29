@@ -5,6 +5,7 @@ using UnityEngine;
 public class EntitySumoner : MonoBehaviour
 {
     public static List<EnemyStats> EnemiesInGame;
+    public static List<Transform> EnemiesInGameTransform;
     public static Dictionary<int, GameObject> EnemyPrefabs;
     public static Dictionary<int, Queue<EnemyStats>> EnemyObjectPools;
 
@@ -15,6 +16,7 @@ public class EntitySumoner : MonoBehaviour
         {
             EnemyPrefabs = new Dictionary<int, GameObject>();
             EnemyObjectPools = new Dictionary<int, Queue<EnemyStats>>();
+            EnemiesInGameTransform = new List<Transform>();
             EnemiesInGame = new List<EnemyStats>();
 
             EnemySummonData[] Enemies = Resources.LoadAll<EnemySummonData>("Enemies");
@@ -55,7 +57,7 @@ public class EntitySumoner : MonoBehaviour
             else
             {
                 // Instantiate new instance of enemy and initialize
-                GameObject NewEnemy = Instantiate(EnemyPrefabs[EnemyID], Vector3.zero, Quaternion.identity);
+                GameObject NewEnemy = Instantiate(EnemyPrefabs[EnemyID], GameLoopManager.NodePositions[0], Quaternion.identity);
                 SummonedEnemy = NewEnemy.GetComponent<EnemyStats>();
                 SummonedEnemy.InitVariables();
             }
@@ -65,15 +67,17 @@ public class EntitySumoner : MonoBehaviour
             Debug.Log($"ENTITYSUMMONER: ENEMY WITH ID OF {EnemyID} DOES NOT EXIST!");
             return null;
         }
-
+        EnemiesInGameTransform.Add(SummonedEnemy.transform);
         EnemiesInGame.Add(SummonedEnemy);
         SummonedEnemy.ID = EnemyID;
         return SummonedEnemy;
     }
 
-    public static void RemoveEnemy(EnemyStats EnemyToRemove) {
+    public static void RemoveEnemy(EnemyStats EnemyToRemove) 
+    {
         EnemyObjectPools[EnemyToRemove.ID].Enqueue(EnemyToRemove);
         EnemyToRemove.gameObject.SetActive(false);
+        EnemiesInGameTransform.Remove(EnemyToRemove.transform);
         EnemiesInGame.Remove(EnemyToRemove);
     }
 

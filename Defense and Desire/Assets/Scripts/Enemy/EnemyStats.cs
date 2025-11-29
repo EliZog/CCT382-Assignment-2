@@ -12,6 +12,7 @@ public class EnemyStats : MonoBehaviour
 
     public int ID;
     public int NodeIndex;
+    public int Speed;
     //public GameObject LevelManager;
     //public LevelManager lm;
 
@@ -72,6 +73,8 @@ public class EnemyStats : MonoBehaviour
     {
         SetHealthTo(maxHealth);
         isDead = false;
+        transform.position = GameLoopManager.NodePositions[0];
+        NodeIndex = 0;
 
     }
 
