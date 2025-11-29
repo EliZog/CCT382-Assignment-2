@@ -7,16 +7,22 @@ using UnityEngine.Jobs;
 
 public class GameLoopManager : MonoBehaviour
 {
+
+    public static List<TowerBehaviour> TowersInGame;
     public static Vector3[] NodePositions;
+    public static float[] NodeDistances;
+
+    private static Queue<EnemyDamageData> DamageData;
     private static Queue<EnemyStats> EnemiesToRemove;
     private static Queue<int> EnemyIDsToSummon;
 
     public Transform NodeParent;
     public bool LoopShouldEnd;
 
-    // Start
     private void Start()
     {
+        DamageData = new Queue<EnemyDamageData>();
+        TowersInGame = new List<TowerBehaviour>();
         EnemyIDsToSummon = new Queue<int>();
         EnemiesToRemove = new Queue<EnemyStats>();
         EntitySumoner.Init();
@@ -27,6 +33,11 @@ public class GameLoopManager : MonoBehaviour
             NodePositions[i] = NodeParent.GetChild(i).position;
         }
 
+        NodeDistances = new float[NodePositions.Length-1];
+        for (int i = 0; i < NodeDistances.Length; i++)
+        {
+            NodeDistances[i] = Vector3.Distance(NodePositions[i], NodePositions[i + 1]);
+        }
         StartCoroutine(GameLoop());
         InvokeRepeating("SummonTest", 0f, 1f);
     }
@@ -93,9 +104,29 @@ public class GameLoopManager : MonoBehaviour
 
             // Tick Towers
 
+            foreach (TowerBehaviour tower in TowersInGame)
+            {
+                tower.Target = TowerTargeting.GetTarget(tower, TowerTargeting.TargetType.Last);
+                tower.Tick();
+            }
+
             // Apply Effects
 
             // Damage Enemies
+
+            if (DamageData.Count > 0)
+            {
+                for (int i = 0; i < DamageData.Count; i++)
+                {
+                    EnemyDamageData CurrentDamageData = DamageData.Dequeue();
+                    CurrentDamageData.TargetEnemy.health -= CurrentDamageData.TotalDamage / CurrentDamageData.Resistance;
+
+                    if (CurrentDamageData.TargetEnemy.health <= 0f)
+                    {
+                        EnqueueEnemyToRemove(CurrentDamageData.TargetEnemy);
+                    }
+                }
+            }
 
             // Remove Enemies
 
@@ -114,6 +145,11 @@ public class GameLoopManager : MonoBehaviour
         
     }
 
+    public static void EnqueueDamageData(EnemyDamageData damageData)
+    {
+        DamageData.Enqueue(damageData);
+    }
+
     public static void EnqueueEnemyIDToSummon(int ID)
     {
         EnemyIDsToSummon.Enqueue(ID);
@@ -123,6 +159,20 @@ public class GameLoopManager : MonoBehaviour
     {
         EnemiesToRemove.Enqueue(EnemyToRemove);
     }
+}
+
+public struct EnemyDamageData
+{
+    public EnemyDamageData(EnemyStats target, float damage, float resistance)
+    {
+        TargetEnemy = target;
+        TotalDamage = damage;
+        Resistance = resistance;
+    }
+
+    public EnemyStats TargetEnemy;
+    public float TotalDamage;
+    public float Resistance;
 }
 
 public struct MoveEnemiesJob : IJobParallelForTransform

@@ -5,14 +5,16 @@ public class EnemyStats : MonoBehaviour
 {
     public enum EnemyTags {Armoured, Flying, Charming, Vehicle, Bleeding}
 
-    [SerializeField] public int health;
-    [SerializeField] public int maxHealth;
+    [SerializeField] public float health;
+    [SerializeField] public float maxHealth;
     [SerializeField] public bool isDead;
     [SerializeField] public List<EnemyTags> tags;
 
+    public Transform RootPart;
     public int ID;
     public int NodeIndex;
     public int Speed;
+    public float DamageResistance = 1f;
     //public GameObject LevelManager;
     //public LevelManager lm;
 
@@ -41,7 +43,7 @@ public class EnemyStats : MonoBehaviour
         return isDead;
     }
 
-    public int HealthLeft()
+    public float HealthLeft()
     {
         return health;
     }
@@ -51,21 +53,21 @@ public class EnemyStats : MonoBehaviour
         isDead = true;
     }
 
-    public void SetHealthTo(int healthToSetTo)
+    public void SetHealthTo(float healthToSetTo)
     {
         health = healthToSetTo;
         CheckHealth();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
-        int healthAfterDamage = health - damage;
+        float healthAfterDamage = health - damage;
         SetHealthTo(healthAfterDamage);
     }
 
-    public void Heal(int heal)
+    public void Heal(float heal)
     {
-        int healthAfterHeal = health + heal;
+        float healthAfterHeal = health + heal;
         SetHealthTo(healthAfterHeal);
     }
 
