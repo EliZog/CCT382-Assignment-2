@@ -3469,7 +3469,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 659354976}
     m_Modifications:
     - target: {fileID: 523860081394211607, guid: 9d9016a93e2afb14993f9ab42254fc2b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5533,7 +5533,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 659354976}
     m_Modifications:
     - target: {fileID: 523860081394211607, guid: 9d9016a93e2afb14993f9ab42254fc2b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5775,6 +5775,8 @@ Transform:
   - {fileID: 831052917}
   - {fileID: 1022286117}
   - {fileID: 795360077}
+  - {fileID: 914893134}
+  - {fileID: 1234396444}
   m_Father: {fileID: 709746242}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &665888554
@@ -8727,6 +8729,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7667667299490085784, guid: c65df2ca4c250c442925bcdb64911c51, type: 3}
   m_PrefabInstance: {fileID: 902639823}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &914893134 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 523860081394211607, guid: 9d9016a93e2afb14993f9ab42254fc2b, type: 3}
+  m_PrefabInstance: {fileID: 616367801}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &917319197
 PrefabInstance:
@@ -11900,6 +11907,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1305869041}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1234396444 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 523860081394211607, guid: 9d9016a93e2afb14993f9ab42254fc2b, type: 3}
+  m_PrefabInstance: {fileID: 416299604}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1251529521
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12017,10 +12029,6 @@ PrefabInstance:
     - target: {fileID: 5575320651901538184, guid: e8b2cef43e518804e8d539582f8952ba, type: 3}
       propertyPath: m_Name
       value: Flamethrower
-      objectReference: {fileID: 0}
-    - target: {fileID: 8570008163845027960, guid: e8b2cef43e518804e8d539582f8952ba, type: 3}
-      propertyPath: Range
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
