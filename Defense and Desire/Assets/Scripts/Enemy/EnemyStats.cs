@@ -10,21 +10,18 @@ public class EnemyStats : MonoBehaviour
     [SerializeField] public bool isDead;
     [SerializeField] public List<EnemyTags> tags;
 
-    public List<Effect> ActiveEffects;
+    [SerializeField] public List<Effect> ActiveEffects;
 
     public Transform RootPart;
     public int ID;
     public int NodeIndex;
     public int Speed;
     public float DamageResistance = 1f;
-    //public GameObject LevelManager;
-    //public LevelManager lm;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         InitVariables();
-        //lm = LevelManager.GetComponent<LevelManager>();
     }
 
     public void Tick()
@@ -47,6 +44,7 @@ public class EnemyStats : MonoBehaviour
             }
 
         }
+
         ActiveEffects.RemoveAll(x => x.ExpireTime <= 0f);
     }
 
@@ -102,7 +100,6 @@ public class EnemyStats : MonoBehaviour
     {
         SetHealthTo(maxHealth);
         ActiveEffects = new List<Effect>();
-
 
         isDead = false;
         transform.position = GameLoopManager.NodePositions[0];
