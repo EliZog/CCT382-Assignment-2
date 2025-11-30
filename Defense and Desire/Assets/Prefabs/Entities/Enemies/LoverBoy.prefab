@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2874814627882933277}
   - component: {fileID: 3867662766995110996}
+  - component: {fileID: -690168990767954899}
   m_Layer: 6
   m_Name: LoverBoy
   m_TagString: Enemy
@@ -54,6 +55,33 @@ MonoBehaviour:
   NodeIndex: 0
   Speed: 3
   DamageResistance: 1
+--- !u!54 &-690168990767954899
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2703378155559087917}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8499339007494632092
 GameObject:
   m_ObjectHideFlags: 0

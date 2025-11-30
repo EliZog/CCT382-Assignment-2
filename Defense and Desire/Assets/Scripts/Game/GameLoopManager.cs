@@ -42,6 +42,7 @@ public class GameLoopManager : MonoBehaviour
         }
         StartCoroutine(GameLoop());
         InvokeRepeating("SummonTest", 0f, 1f);
+        InvokeRepeating("SummonTestStrong", 0.5f, 1f);
     }
 
     void SummonTest()
@@ -49,6 +50,10 @@ public class GameLoopManager : MonoBehaviour
         EnqueueEnemyIDToSummon(1);
     }
 
+    void SummonTestStrong()
+    {
+        EnqueueEnemyIDToSummon(3);
+    }
     IEnumerator GameLoop() 
     {
         while (LoopShouldEnd == false) {
@@ -109,7 +114,7 @@ public class GameLoopManager : MonoBehaviour
 
             foreach (TowerBehaviour tower in TowersInGame)
             {
-                tower.Target = TowerTargeting.GetTarget(tower, TowerTargeting.TargetType.First);
+                tower.Target = TowerTargeting.GetTarget(tower, TowerTargeting.TargetType.Strong);
                 tower.Tick();
             }
 

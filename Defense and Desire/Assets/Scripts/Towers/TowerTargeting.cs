@@ -60,8 +60,7 @@ public class TowerTargeting
         }
 
         // Initial compare value
-        float initialCompare =
-            (targetMethod == TargetType.Last) ? Mathf.NegativeInfinity : Mathf.Infinity;
+        float initialCompare = Mathf.Infinity;
 
         // Setup job
         SearchForEnemy enemySearchJob = new SearchForEnemy
@@ -152,8 +151,10 @@ public class TowerTargeting
                 switch (TargetingType)
                 {
                     case 0: // First
-                    case 1: // Last
                         value = GetDistanceToEnd(enemy);
+                        break;
+                    case 1: // Last
+                        value = -GetDistanceToEnd(enemy);
                         break;
 
                     case 2: // Close
@@ -163,15 +164,12 @@ public class TowerTargeting
                         );
                         break;
                     case 3: // strong
-                        value = enemy.MaxHealth;
+                        value = -enemy.MaxHealth;
                         break;
                 }
 
-                bool isBetter =
-                    (TargetingType == 1 || TargetingType == 3) ? value > compare  // Last / Strong -> max
-                                                               : value < compare; // First / Close -> min
-
-                if (isBetter)
+                // single comparison: always pick smallest value
+                if (value < compare)
                 {
                     compare = value;
                     bestIndex = index;
