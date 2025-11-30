@@ -4,6 +4,8 @@ public class TowerPlacement : MonoBehaviour
 {
     [SerializeField] private LayerMask PlacementCheckMask;
     [SerializeField] private LayerMask PlacementCollideMask;
+    
+    [SerializeField] private PlayerStats PlayerStatistics;
     [SerializeField] private Camera PlayerCamera;
 
     private GameObject CurrentPlacingTower;
@@ -46,7 +48,10 @@ public class TowerPlacement : MonoBehaviour
 
                     if (!Physics.CheckBox(BoxCenter, HalfExtents, Quaternion.identity, PlacementCheckMask, QueryTriggerInteraction.Ignore))
                     {
-                        GameLoopManager.TowersInGame.Add(CurrentPlacingTower.GetComponent<TowerBehaviour>());
+                        TowerBehaviour CurrentTowerBehaviour = CurrentPlacingTower.GetComponent<TowerBehaviour>();
+                        GameLoopManager.TowersInGame.Add(CurrentTowerBehaviour);
+
+                        PlayerStatistics.AddMoney(-CurrentTowerBehaviour.SummonCost); // remove money when placing tower
 
                         TowerCollider.isTrigger = false;
                         CurrentPlacingTower = null;
@@ -60,6 +65,16 @@ public class TowerPlacement : MonoBehaviour
 
     public void SetTowerToPlace(GameObject tower)
     {
-        CurrentPlacingTower = Instantiate(tower, Vector3.zero, Quaternion.identity);
+        int TowerSummonCost = tower.GetComponent<TowerBehaviour>().SummonCost;
+
+        if (PlayerStatistics.GetMoney() >= TowerSummonCost)
+        {
+            CurrentPlacingTower = Instantiate(tower, Vector3.zero, Quaternion.identity);
+        }
+        else
+        {
+            // ADD THE MESSAGE TO THE UI SAYING YOU CAN'T AFFORD IT
+            Debug.Log("You need more money to purchase a " + tower.name);
+        }
     }
 }

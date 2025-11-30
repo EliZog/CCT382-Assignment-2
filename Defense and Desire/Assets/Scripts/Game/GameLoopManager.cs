@@ -4,6 +4,8 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Jobs;
+using TMPro;
+using UnityEngine.UIElements;
 
 public class GameLoopManager : MonoBehaviour
 {
@@ -17,11 +19,61 @@ public class GameLoopManager : MonoBehaviour
     private static Queue<EnemyStats> EnemiesToRemove;
     private static Queue<int> EnemyIDsToSummon;
 
+    private PlayerStats PlayerStatistics;
+    [SerializeField] private TextMeshProUGUI WavesText;
+    [SerializeField] private UnityEngine.UI.Button NextWaveButton;
+
+
     public Transform NodeParent;
     public bool LoopShouldEnd;
 
+    [System.Serializable]
+    public class WaveEnemy
+    {
+        public int enemyID = 1;        // which enemy prefab ID (same as your test IDs)
+        public int count = 5;          // how many of this enemy in the wave
+        public float spawnInterval = 0.5f; // time between each spawn of this enemy type
+    }
+
+    [System.Serializable]
+    public class Wave
+    {
+        public List<WaveEnemy> enemies = new List<WaveEnemy>();
+        public float delayAfterWave = 3f; // time between this wave and the next one
+    }
+
+    public List<Wave> Waves = new List<Wave>();
+    private int _currentWaveIndex = 0;
+    private bool _waveIsRunning = false;
+
+    // Exposed counters
+    public int MaxWaves { get; private set; }        // total number of waves
+    public int CurrentWave { get; private set; }     // 1-based, 0 means "no wave started yet"
+
+    private void UpdateWaveText()
+    {
+        if (WavesText == null) return;
+
+        WavesText.text = $"{CurrentWave} / {MaxWaves}";
+    }
+
+    private void UpdateWaveButtonState()
+    {
+        if (NextWaveButton == null) return;
+
+        NextWaveButton.interactable = !_waveIsRunning;
+    }
+
+
+
     private void Start()
     {
+        MaxWaves = (Waves != null) ? Waves.Count : 0;
+        CurrentWave = 0;
+
+        UpdateWaveText();  // Wave 0 / X
+
+        PlayerStatistics = FindObjectOfType<PlayerStats>();
         EffectsQueue = new Queue<ApplyEffectData>();
         DamageData = new Queue<EnemyDamageData>();
         TowersInGame = new List<TowerBehaviour>();
@@ -30,20 +82,28 @@ public class GameLoopManager : MonoBehaviour
         EntitySummoner.Init();
 
         NodePositions = new Vector3[NodeParent.childCount];
-        for (int i = 0; i < NodePositions.Length; i++) 
+        for (int i = 0; i < NodePositions.Length; i++)
         {
             NodePositions[i] = NodeParent.GetChild(i).position;
         }
 
-        NodeDistances = new float[NodePositions.Length-1];
+        NodeDistances = new float[NodePositions.Length - 1];
         for (int i = 0; i < NodeDistances.Length; i++)
         {
             NodeDistances[i] = Vector3.Distance(NodePositions[i], NodePositions[i + 1]);
         }
+
+        // Initialize wave counters based on Inspector list
+        MaxWaves = (Waves != null) ? Waves.Count : 0;
+        CurrentWave = 0; // no wave started yet
+        UpdateWaveText();
+        UpdateWaveButtonState();
+
         StartCoroutine(GameLoop());
-        InvokeRepeating("SummonTest", 0f, 1f);
-        InvokeRepeating("SummonTestStrong", 0.5f, 1f);
+        // Auto-start first wave
+        StartNextWave();
     }
+
 
     void SummonTest()
     {
@@ -54,6 +114,59 @@ public class GameLoopManager : MonoBehaviour
     {
         EnqueueEnemyIDToSummon(3);
     }
+
+    IEnumerator WaveLoop()
+    {
+
+        if (_waveIsRunning || _currentWaveIndex >= Waves.Count)
+            yield break;
+
+        _waveIsRunning = true;
+        UpdateWaveButtonState(); // enable button
+
+        CurrentWave = _currentWaveIndex + 1;
+        UpdateWaveText();
+
+
+        Wave currentWave = Waves[_currentWaveIndex];
+
+        // 1-based for UI: Wave 1, Wave 2, ...
+        CurrentWave = _currentWaveIndex + 1;
+
+        foreach (WaveEnemy waveEnemy in currentWave.enemies)
+        {
+            for (int i = 0; i < waveEnemy.count; i++)
+            {
+                EnqueueEnemyIDToSummon(waveEnemy.enemyID);
+                yield return new WaitForSeconds(waveEnemy.spawnInterval);
+            }
+        }
+
+        // Wait until this wave is cleared before allowing next
+        while (EntitySummoner.EnemiesInGame.Count > 0 && !LoopShouldEnd)
+        {
+            yield return null;
+        }
+
+        _currentWaveIndex++;
+        _waveIsRunning = false;
+        UpdateWaveButtonState(); // re-enable button
+
+        // Optionally: when all waves are done, CurrentWave can stay as last wave
+        // or you can set it to 0 or some "completed" sentinel if you want.
+    }
+
+
+    public void StartNextWave()
+    {
+        if (!_waveIsRunning && _currentWaveIndex < Waves.Count && !LoopShouldEnd)
+        {
+            StartCoroutine(WaveLoop());
+        }
+    }
+
+
+
     IEnumerator GameLoop() 
     {
         while (LoopShouldEnd == false) {
@@ -95,15 +208,29 @@ public class GameLoopManager : MonoBehaviour
             JobHandle MoveJobHandle = MoveJob.Schedule(EnemyAccess);
             MoveJobHandle.Complete();
 
-            for (int i = 0; i < EntitySummoner.EnemiesInGame.Count; i++) 
+            for (int i = 0; i < EntitySummoner.EnemiesInGame.Count; i++)
             {
-                EntitySummoner.EnemiesInGame[i].NodeIndex = NodeIndices[i];
+                EnemyStats enemy = EntitySummoner.EnemiesInGame[i];
+                enemy.NodeIndex = NodeIndices[i];
 
-                if (EntitySummoner.EnemiesInGame[i].NodeIndex == NodePositions.Length) 
+                if (enemy.NodeIndex == NodePositions.Length)
                 {
-                    EnqueueEnemyToRemove(EntitySummoner.EnemiesInGame[i]);
+                    // Enemy reached the end: damage player
+                    PlayerStatistics.RemoveHealth(enemy.health);
+
+                    // Optional: clamp to zero and maybe end the game
+                    if (PlayerStatistics.GetHealth() <= 0f)
+                    {
+                        PlayerStatistics.SetHealthToZero();
+                        // TODO: trigger game over here if you want
+                        // LoopShouldEnd = true;
+                    }
+
+                    // Remove the enemy from the game
+                    EnqueueEnemyToRemove(enemy);
                 }
             }
+
 
             EnemySpeeds.Dispose();
             NodeIndices.Dispose();
@@ -154,6 +281,7 @@ public class GameLoopManager : MonoBehaviour
                 {
                     EnemyDamageData CurrentDamageData = DamageData.Dequeue();
                     CurrentDamageData.TargetEnemy.health -= CurrentDamageData.TotalDamage / CurrentDamageData.Resistance;
+                    PlayerStatistics.AddMoney((int)CurrentDamageData.TotalDamage); // money is added by damage done
 
                     if (CurrentDamageData.TargetEnemy.health <= 0f)
                     {
@@ -177,6 +305,17 @@ public class GameLoopManager : MonoBehaviour
 
             // Remove Towers
 
+
+            // Check if game has ended
+
+            if (_currentWaveIndex >= MaxWaves &&
+                EntitySummoner.EnemiesInGame.Count == 0 &&
+                !LoopShouldEnd)
+            {
+                // All waves spawned and cleared
+                // You can trigger win screen here
+                LoopShouldEnd = true;
+            }
 
             yield return null;
         }

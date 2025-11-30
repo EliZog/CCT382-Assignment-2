@@ -76,6 +76,7 @@ MonoBehaviour:
     m_Bits: 64
   Target: {fileID: 0}
   TowerPivot: {fileID: 8991229900423444678}
+  SummonCost: 250
   Damage: 5
   Firerate: 1
   Range: 5
@@ -549,6 +550,7 @@ MonoBehaviour:
     m_Bits: 0
   Target: {fileID: 0}
   TowerPivot: {fileID: 0}
+  SummonCost: 100
   Damage: 0
   Firerate: 0
   Range: 0

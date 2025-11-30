@@ -9,8 +9,10 @@ public class TowerTargeting
         First,
         Last,
         Close,
-        Strong
+        Strong,
+        Weak
     }
+
 
     public static EnemyStats GetTarget(TowerBehaviour currentTower, TargetType targetMethod)
     {
@@ -59,8 +61,24 @@ public class TowerTargeting
             );
         }
 
-        // Initial compare value
-        float initialCompare = Mathf.Infinity;
+        // Initial compare value matches the type (min vs max)
+        float initialCompare;
+
+        switch (targetMethod)
+        {
+            case TargetType.Last:
+            case TargetType.Strong:
+                initialCompare = Mathf.NegativeInfinity;   // looking for largest value
+                break;
+
+            case TargetType.Weak:
+            case TargetType.First:
+            case TargetType.Close:
+            default:
+                initialCompare = Mathf.Infinity;           // looking for smallest value
+                break;
+        }
+
 
         // Setup job
         SearchForEnemy enemySearchJob = new SearchForEnemy
@@ -100,18 +118,17 @@ public class TowerTargeting
         bestEnemyIndex.Dispose();
 
         return EntitySummoner.EnemiesInGame[enemyIndexToReturn];
-
     }
 
     struct EnemyData
     {
-        public EnemyData(Vector3 position, int nodeIndex, float hp, float MaxHP, int enemyIndex)
+        public EnemyData(Vector3 position, int nodeIndex, float hp, float maxHP, int enemyIndex)
         {
             EnemyPosition = position;
             NodeIndex = nodeIndex;
             EnemyIndex = enemyIndex;
             Health = hp;
-            MaxHealth = MaxHP;
+            MaxHealth = maxHP;
         }
 
         public Vector3 EnemyPosition;
@@ -146,33 +163,63 @@ public class TowerTargeting
                 if (enemy.EnemyIndex == -1)
                     continue;
 
-                float value = 0f;
-
                 switch (TargetingType)
                 {
-                    case 0: // First
-                        value = GetDistanceToEnd(enemy);
-                        break;
-                    case 1: // Last
-                        value = -GetDistanceToEnd(enemy);
-                        break;
+                    case 0: // First – smallest distance to end
+                        {
+                            float distToEnd = GetDistanceToEnd(enemy);
+                            if (distToEnd < compare)
+                            {
+                                compare = distToEnd;
+                                bestIndex = index;
+                            }
+                            break;
+                        }
 
-                    case 2: // Close
-                        value = Vector3.Distance(
-                            TowerPosition,
-                            enemy.EnemyPosition
-                        );
-                        break;
-                    case 3: // strong
-                        value = -enemy.MaxHealth;
-                        break;
-                }
+                    case 1: // Last – largest distance to end
+                        {
+                            float distToEnd = GetDistanceToEnd(enemy);
+                            if (distToEnd > compare)
+                            {
+                                compare = distToEnd;
+                                bestIndex = index;
+                            }
+                            break;
+                        }
 
-                // single comparison: always pick smallest value
-                if (value < compare)
-                {
-                    compare = value;
-                    bestIndex = index;
+                    case 2: // Close – smallest distance to tower
+                        {
+                            float distToTower = Vector3.Distance(
+                                TowerPosition,
+                                enemy.EnemyPosition
+                            );
+                            if (distToTower < compare)
+                            {
+                                compare = distToTower;
+                                bestIndex = index;
+                            }
+                            break;
+                        }
+
+                    case 3: // Strong
+                        {
+                            if (enemy.MaxHealth > compare)
+                            {
+                                compare = enemy.MaxHealth;
+                                bestIndex = index;
+                            }
+                            break;
+                        }
+
+                    case 4: // Weak
+                        {
+                            if (enemy.MaxHealth < compare)
+                            {
+                                compare = enemy.MaxHealth;
+                                bestIndex = index;
+                            }
+                            break;
+                        }
                 }
             }
 
