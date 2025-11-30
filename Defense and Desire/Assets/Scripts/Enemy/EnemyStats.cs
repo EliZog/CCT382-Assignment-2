@@ -38,6 +38,7 @@ public class EnemyStats : MonoBehaviour
                 {
                     GameLoopManager.EnqueueDamageData(new EnemyDamageData(this, ActiveEffects[i].Damage, 1f));
                     ActiveEffects[i].DamageDelay = 1f / ActiveEffects[i].DamageRate;
+                    Debug.Log("Suppose to decrease health here");
                 }
 
                 ActiveEffects[i].ExpireTime -= Time.deltaTime;
