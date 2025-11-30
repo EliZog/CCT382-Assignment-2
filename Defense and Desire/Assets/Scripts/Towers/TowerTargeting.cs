@@ -48,7 +48,7 @@ public class TowerTargeting
                 continue;
 
             int enemyIndexInList =
-                EntitySumoner.EnemiesInGame.FindIndex(x => x == currentEnemy);
+                EntitySummoner.EnemiesInGame.FindIndex(x => x == currentEnemy);
 
             enemiesToCalculate[i] = new EnemyData(
                 currentEnemy.transform.position,
@@ -100,7 +100,7 @@ public class TowerTargeting
         nodeDistances.Dispose();
         bestEnemyIndex.Dispose();
 
-        return EntitySumoner.EnemiesInGame[enemyIndexToReturn];
+        return EntitySummoner.EnemiesInGame[enemyIndexToReturn];
 
     }
 

@@ -12,6 +12,7 @@ public class GameLoopManager : MonoBehaviour
     public static Vector3[] NodePositions;
     public static float[] NodeDistances;
 
+    private static Queue<ApplyEffectData> EffectsQueue;
     private static Queue<EnemyDamageData> DamageData;
     private static Queue<EnemyStats> EnemiesToRemove;
     private static Queue<int> EnemyIDsToSummon;
@@ -21,11 +22,12 @@ public class GameLoopManager : MonoBehaviour
 
     private void Start()
     {
+        EffectsQueue = new Queue<ApplyEffectData>();
         DamageData = new Queue<EnemyDamageData>();
         TowersInGame = new List<TowerBehaviour>();
         EnemyIDsToSummon = new Queue<int>();
         EnemiesToRemove = new Queue<EnemyStats>();
-        EntitySumoner.Init();
+        EntitySummoner.Init();
 
         NodePositions = new Vector3[NodeParent.childCount];
         for (int i = 0; i < NodePositions.Length; i++) 
@@ -57,7 +59,7 @@ public class GameLoopManager : MonoBehaviour
             {
                 for (int i = 0; i < EnemyIDsToSummon.Count; i++)
                 {
-                    EntitySumoner.SummonEnemy(EnemyIDsToSummon.Dequeue());
+                    EntitySummoner.SummonEnemy(EnemyIDsToSummon.Dequeue());
                 }
             }
 
@@ -66,14 +68,14 @@ public class GameLoopManager : MonoBehaviour
             // Move Enemies
 
             NativeArray<Vector3> NodesToUse = new NativeArray<Vector3>(NodePositions, Allocator.TempJob);
-            NativeArray<float> EnemySpeeds = new NativeArray<float>(EntitySumoner.EnemiesInGame.Count, Allocator.TempJob);
-            NativeArray<int> NodeIndices = new NativeArray<int>(EntitySumoner.EnemiesInGame.Count, Allocator.TempJob);
-            TransformAccessArray EnemyAccess = new TransformAccessArray(EntitySumoner.EnemiesInGameTransform.ToArray(), 2);
+            NativeArray<float> EnemySpeeds = new NativeArray<float>(EntitySummoner.EnemiesInGame.Count, Allocator.TempJob);
+            NativeArray<int> NodeIndices = new NativeArray<int>(EntitySummoner.EnemiesInGame.Count, Allocator.TempJob);
+            TransformAccessArray EnemyAccess = new TransformAccessArray(EntitySummoner.EnemiesInGameTransform.ToArray(), 2);
 
-            for (int i = 0; i < EntitySumoner.EnemiesInGame.Count; i++) 
+            for (int i = 0; i < EntitySummoner.EnemiesInGame.Count; i++) 
             {
-                EnemySpeeds[i] = EntitySumoner.EnemiesInGame[i].Speed;
-                NodeIndices[i] = EntitySumoner.EnemiesInGame[i].NodeIndex;
+                EnemySpeeds[i] = EntitySummoner.EnemiesInGame[i].Speed;
+                NodeIndices[i] = EntitySummoner.EnemiesInGame[i].NodeIndex;
             }
 
             MoveEnemiesJob MoveJob = new MoveEnemiesJob
@@ -87,13 +89,13 @@ public class GameLoopManager : MonoBehaviour
             JobHandle MoveJobHandle = MoveJob.Schedule(EnemyAccess);
             MoveJobHandle.Complete();
 
-            for (int i = 0; i < EntitySumoner.EnemiesInGame.Count; i++) 
+            for (int i = 0; i < EntitySummoner.EnemiesInGame.Count; i++) 
             {
-                EntitySumoner.EnemiesInGame[i].NodeIndex = NodeIndices[i];
+                EntitySummoner.EnemiesInGame[i].NodeIndex = NodeIndices[i];
 
-                if (EntitySumoner.EnemiesInGame[i].NodeIndex == NodePositions.Length) 
+                if (EntitySummoner.EnemiesInGame[i].NodeIndex == NodePositions.Length) 
                 {
-                    EnqueueEnemyToRemove(EntitySumoner.EnemiesInGame[i]);
+                    EnqueueEnemyToRemove(EntitySummoner.EnemiesInGame[i]);
                 }
             }
 
@@ -111,6 +113,31 @@ public class GameLoopManager : MonoBehaviour
             }
 
             // Apply Effects
+            if (EffectsQueue.Count > 0)
+            {
+                for (int i = 0; i < EffectsQueue.Count; i++)
+                {
+                    ApplyEffectData CurrentDamageData = EffectsQueue.Dequeue();
+                    Effect EffectDuplicate = CurrentDamageData.EnemyToAffect.ActiveEffects.Find(x => x.EffectName == CurrentDamageData.EffectToApply.EffectName);
+                    if (EffectDuplicate == null)
+                    {
+                        CurrentDamageData.EnemyToAffect.ActiveEffects.Add(CurrentDamageData.EffectToApply);
+                    }
+                    else
+                    {
+                        EffectDuplicate.ExpireTime = CurrentDamageData.EffectToApply.ExpireTime;
+                    }
+                    
+
+                }
+            }
+
+            //Tick Enemies
+            foreach (EnemyStats CurrentEnemy in EntitySummoner.EnemiesInGame)
+            {
+                CurrentEnemy.Tick();
+            }
+
 
             // Damage Enemies
 
@@ -123,7 +150,11 @@ public class GameLoopManager : MonoBehaviour
 
                     if (CurrentDamageData.TargetEnemy.health <= 0f)
                     {
-                        EnqueueEnemyToRemove(CurrentDamageData.TargetEnemy);
+                        if (!EnemiesToRemove.Contains(CurrentDamageData.TargetEnemy))
+                        {
+                            EnqueueEnemyToRemove(CurrentDamageData.TargetEnemy);
+                        }
+                        
                     }
                 }
             }
@@ -133,7 +164,7 @@ public class GameLoopManager : MonoBehaviour
             if (EnemiesToRemove.Count > 0) {
                 for (int i = 0; i < EnemiesToRemove.Count; i++)
                 {
-                    EntitySumoner.RemoveEnemy(EnemiesToRemove.Dequeue());
+                    EntitySummoner.RemoveEnemy(EnemiesToRemove.Dequeue());
                 }
             }
 
@@ -143,6 +174,11 @@ public class GameLoopManager : MonoBehaviour
             yield return null;
         }
         
+    }
+
+    public static void EnqueueEffectToApply(ApplyEffectData effectData)
+    {
+        EffectsQueue.Enqueue(effectData);
     }
 
     public static void EnqueueDamageData(EnemyDamageData damageData)
@@ -161,6 +197,38 @@ public class GameLoopManager : MonoBehaviour
     }
 }
 
+public class Effect
+{
+    public Effect(string effectName, float damageRate, float damage, float expireTime)
+    {
+        ExpireTime = expireTime;
+        EffectName = effectName;
+        DamageRate = damageRate;
+        Damage = damage;
+    }
+
+    public string EffectName;
+
+    public float DamageDelay;
+    public float DamageRate;
+    public float Damage;
+
+    public float ExpireTime;
+
+
+}
+
+public struct ApplyEffectData
+{
+    public ApplyEffectData(EnemyStats enemytoAffect, Effect effectToApply)
+    {
+        EnemyToAffect = enemytoAffect;
+        EffectToApply = effectToApply;
+    }
+
+    public EnemyStats EnemyToAffect;
+    public Effect EffectToApply;
+}
 public struct EnemyDamageData
 {
     public EnemyDamageData(EnemyStats target, float damage, float resistance)
