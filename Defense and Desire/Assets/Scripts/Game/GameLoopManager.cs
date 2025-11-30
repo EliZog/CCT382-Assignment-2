@@ -22,6 +22,9 @@ public class GameLoopManager : MonoBehaviour
     private PlayerStats PlayerStatistics;
     [SerializeField] private TextMeshProUGUI WavesText;
     [SerializeField] private UnityEngine.UI.Button NextWaveButton;
+    [SerializeField] private GameObject GameOverScreen;
+    [SerializeField] private GameObject VictoryScreen;
+
 
 
     public Transform NodeParent;
@@ -46,6 +49,8 @@ public class GameLoopManager : MonoBehaviour
     private int _currentWaveIndex = 0;
     private bool _waveIsRunning = false;
 
+    private bool hasWon = false; // guard so we only trigger once
+
     // Exposed counters
     public int MaxWaves { get; private set; }        // total number of waves
     public int CurrentWave { get; private set; }     // 1-based, 0 means "no wave started yet"
@@ -64,10 +69,49 @@ public class GameLoopManager : MonoBehaviour
         NextWaveButton.interactable = !_waveIsRunning;
     }
 
+    
+
+    private void Victory()
+    {
+        if (hasWon) return;
+        hasWon = true;
+
+        LoopShouldEnd = true;
+        _waveIsRunning = false;
+        UpdateWaveButtonState(); // if you have this from before
+
+        if (VictoryScreen != null)
+        {
+            VictoryScreen.SetActive(true);
+        }
+    }
+
+    private void GameOver()
+    {
+        LoopShouldEnd = true;
+
+        // stop wave logic
+        _waveIsRunning = false;
+        UpdateWaveButtonState();  // if you have this from earlier
+
+        if (GameOverScreen != null)
+        {
+            GameOverScreen.SetActive(true);
+        }
+    }
 
 
     private void Start()
     {
+        if (GameOverScreen != null)
+        {
+            GameOverScreen.SetActive(false);
+        }
+        if (VictoryScreen != null)
+        {
+            VictoryScreen.SetActive(false);
+        }
+
         MaxWaves = (Waves != null) ? Waves.Count : 0;
         CurrentWave = 0;
 
@@ -222,8 +266,8 @@ public class GameLoopManager : MonoBehaviour
                     if (PlayerStatistics.GetHealth() <= 0f)
                     {
                         PlayerStatistics.SetHealthToZero();
-                        // TODO: trigger game over here if you want
-                        // LoopShouldEnd = true;
+                        GameOver(); // end game
+                        
                     }
 
                     // Remove the enemy from the game
@@ -314,6 +358,7 @@ public class GameLoopManager : MonoBehaviour
             {
                 // All waves spawned and cleared
                 // You can trigger win screen here
+                Victory();
                 LoopShouldEnd = true;
             }
 

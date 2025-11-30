@@ -18,6 +18,9 @@ public class EnemyBallCam : MonoBehaviour
     public float fastSpeedMultiplier = 3f;
     public float lookSensitivity = 120f; // degrees per second
 
+    [Header("Return to start settings")]
+    public float returnDuration = 1f; // how long to tween back to initial camera
+
     private bool followMode = false;
     private EnemyStats currentTarget;
     private Vector3 followPosVelocity;
@@ -26,8 +29,24 @@ public class EnemyBallCam : MonoBehaviour
     private float yaw;
     private float pitch;
 
+    // store initial camera transform
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
+
+    // tween back to initial
+    private bool isReturningToInitial = false;
+    private float returnStartTime;
+    private Vector3 returnStartPosition;
+    private Quaternion returnStartRotation;
+    private Vector3 returnVelocity;  // NEW
+
+
     private void Start()
     {
+        // Store the initial camera transform
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
+
         // Initialize yaw/pitch from current rotation
         Vector3 e = transform.rotation.eulerAngles;
         pitch = e.x;
@@ -37,17 +56,32 @@ public class EnemyBallCam : MonoBehaviour
     private void Update()
     {
         var keyboard = Keyboard.current;
+        var mouse = Mouse.current;
         if (keyboard == null)
             return;
 
-        // Use SPACE directly
-        if (keyboard.spaceKey.wasPressedThisFrame)
+        // Handle space toggle (only if we're not currently tweening back)
+        if (keyboard.spaceKey.wasPressedThisFrame && !isReturningToInitial)
         {
-            followMode = !followMode;
-
             if (!followMode)
             {
-                // Leaving follow mode – keep current rotation for free-cam
+                // Trying to enter follow mode
+                EnemyStats leader = GetLeadingEnemy();
+                if (leader == null)
+                {
+                    // No enemies: tween back to initial camera position instead
+                    StartReturnToInitial();
+                }
+                else
+                {
+                    followMode = true;
+                    currentTarget = leader;
+                }
+            }
+            else
+            {
+                // Leaving follow mode – stay where we are, go back to free cam
+                followMode = false;
                 currentTarget = null;
                 Vector3 e = transform.rotation.eulerAngles;
                 pitch = e.x;
@@ -55,6 +89,12 @@ public class EnemyBallCam : MonoBehaviour
             }
         }
 
+        // If we're currently tweening back to the initial view, do that and skip other modes
+        if (isReturningToInitial)
+        {
+            UpdateReturnToInitial();
+            return;
+        }
 
         if (followMode)
         {
@@ -71,8 +111,15 @@ public class EnemyBallCam : MonoBehaviour
     private void UpdateFollowMode()
     {
         EnemyStats leader = GetLeadingEnemy();
+
+        // NEW: if no enemies left while following, go back to initial camera
         if (leader == null)
+        {
+            followMode = false;
+            currentTarget = null;
+            StartReturnToInitial();
             return;
+        }
 
         if (leader != currentTarget)
         {
@@ -182,4 +229,45 @@ public class EnemyBallCam : MonoBehaviour
             transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
         }
     }
+
+    // ================ RETURN TO INITIAL VIEW =================
+
+    private void StartReturnToInitial()
+    {
+        isReturningToInitial = true;
+        returnStartTime = Time.time;
+        returnStartPosition = transform.position;
+        returnStartRotation = transform.rotation;
+    }
+
+    private void UpdateReturnToInitial()
+    {
+        // SmoothDamp the position (same feel as follow mode)
+        transform.position = Vector3.SmoothDamp(
+            transform.position,
+            initialPosition,
+            ref returnVelocity,
+            followPositionSmoothTime // same smoothing as follow mode
+        );
+
+        // Smoothly rotate toward the initial rotation
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            initialRotation,
+            followRotationSmoothSpeed * Time.deltaTime
+        );
+
+        // Stop returning when we're close enough
+        if (Vector3.Distance(transform.position, initialPosition) < 0.05f &&
+            Quaternion.Angle(transform.rotation, initialRotation) < 1f)
+        {
+            isReturningToInitial = false;
+
+            // Sync free cam yaw/pitch to new rotation
+            Vector3 e = transform.rotation.eulerAngles;
+            pitch = e.x;
+            yaw = e.y;
+        }
+    }
+
 }

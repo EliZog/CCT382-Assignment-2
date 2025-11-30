@@ -38,14 +38,14 @@ public class PlayerStats : MonoBehaviour
     public void RemoveHealth(float HealthToRemove)
     {
         CurrentHealth -= HealthToRemove;
-        HealthDisplayText.SetText($"${CurrentHealth}");
+        HealthDisplayText.SetText($"x{CurrentHealth}");
 
     }
 
     public void SetHealthToZero()
     {
         CurrentHealth = 0f;
-        HealthDisplayText.SetText($"${CurrentHealth}");
+        HealthDisplayText.SetText($"x{CurrentHealth}");
 
     }
 }
