@@ -8,7 +8,8 @@ public class TowerTargeting
     {
         First,
         Last,
-        Close
+        Close,
+        Strong
     }
 
     public static EnemyStats GetTarget(TowerBehaviour currentTower, TargetType targetMethod)
@@ -53,6 +54,7 @@ public class TowerTargeting
                 currentEnemy.transform.position,
                 currentEnemy.NodeIndex,
                 currentEnemy.health,
+                currentEnemy.maxHealth,
                 enemyIndexInList
             );
         }
@@ -104,18 +106,20 @@ public class TowerTargeting
 
     struct EnemyData
     {
-        public EnemyData(Vector3 position, int nodeIndex, float hp, int enemyIndex)
+        public EnemyData(Vector3 position, int nodeIndex, float hp, float MaxHP, int enemyIndex)
         {
             EnemyPosition = position;
             NodeIndex = nodeIndex;
             EnemyIndex = enemyIndex;
             Health = hp;
+            MaxHealth = MaxHP;
         }
 
         public Vector3 EnemyPosition;
         public int EnemyIndex;
         public int NodeIndex;
         public float Health;
+        public float MaxHealth;
     }
 
     struct SearchForEnemy : IJob
@@ -128,7 +132,7 @@ public class TowerTargeting
 
         public Vector3 TowerPosition;
         public float InitialCompareValue;
-        public int TargetingType; // 0 = First, 1 = Last, 2 = Close
+        public int TargetingType; // 0 = First, 1 = Last, 2 = Close, 3 = Strong
 
         public void Execute()
         {
@@ -158,11 +162,14 @@ public class TowerTargeting
                             enemy.EnemyPosition
                         );
                         break;
+                    case 3: // strong
+                        value = enemy.MaxHealth;
+                        break;
                 }
 
                 bool isBetter =
-                    (TargetingType == 1) ? value > compare  // Last -> max
-                                         : value < compare; // First / Close -> min
+                    (TargetingType == 1 || TargetingType == 3) ? value > compare  // Last / Strong -> max
+                                                               : value < compare; // First / Close -> min
 
                 if (isBetter)
                 {
