@@ -59,6 +59,7 @@ public class GameLoopManager : MonoBehaviour
             {
                 for (int i = 0; i < EnemyIDsToSummon.Count; i++)
                 {
+
                     EntitySummoner.SummonEnemy(EnemyIDsToSummon.Dequeue());
                 }
             }
