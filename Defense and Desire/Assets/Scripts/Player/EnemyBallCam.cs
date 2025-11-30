@@ -108,7 +108,7 @@ public class EnemyBallCam : MonoBehaviour
 
     private EnemyStats GetLeadingEnemy()
     {
-        List<EnemyStats> enemies = EntitySumoner.EnemiesInGame;
+        List<EnemyStats> enemies = EntitySummoner.EnemiesInGame;
 
         if (enemies == null || enemies.Count == 0)
             return null;
@@ -159,8 +159,6 @@ public class EnemyBallCam : MonoBehaviour
         if (keyboard.sKey.isPressed) move -= transform.forward;
         if (keyboard.dKey.isPressed) move += transform.right;
         if (keyboard.aKey.isPressed) move -= transform.right;
-        if (keyboard.eKey.isPressed) move += transform.up;
-        if (keyboard.qKey.isPressed) move -= transform.up;
 
         if (move.sqrMagnitude > 1e-6f)
         {

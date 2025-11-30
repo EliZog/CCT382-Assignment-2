@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntitySumoner : MonoBehaviour
+public class EntitySummoner : MonoBehaviour
 {
     public static List<EnemyStats> EnemiesInGame;
     public static List<Transform> EnemiesInGameTransform;

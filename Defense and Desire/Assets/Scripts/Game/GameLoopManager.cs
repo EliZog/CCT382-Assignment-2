@@ -27,7 +27,7 @@ public class GameLoopManager : MonoBehaviour
         TowersInGame = new List<TowerBehaviour>();
         EnemyIDsToSummon = new Queue<int>();
         EnemiesToRemove = new Queue<EnemyStats>();
-        EntitySumoner.Init();
+        EntitySummoner.Init();
 
         NodePositions = new Vector3[NodeParent.childCount];
         for (int i = 0; i < NodePositions.Length; i++) 
@@ -59,7 +59,7 @@ public class GameLoopManager : MonoBehaviour
             {
                 for (int i = 0; i < EnemyIDsToSummon.Count; i++)
                 {
-                    EntitySumoner.SummonEnemy(EnemyIDsToSummon.Dequeue());
+                    EntitySummoner.SummonEnemy(EnemyIDsToSummon.Dequeue());
                 }
             }
 
@@ -68,14 +68,14 @@ public class GameLoopManager : MonoBehaviour
             // Move Enemies
 
             NativeArray<Vector3> NodesToUse = new NativeArray<Vector3>(NodePositions, Allocator.TempJob);
-            NativeArray<float> EnemySpeeds = new NativeArray<float>(EntitySumoner.EnemiesInGame.Count, Allocator.TempJob);
-            NativeArray<int> NodeIndices = new NativeArray<int>(EntitySumoner.EnemiesInGame.Count, Allocator.TempJob);
-            TransformAccessArray EnemyAccess = new TransformAccessArray(EntitySumoner.EnemiesInGameTransform.ToArray(), 2);
+            NativeArray<float> EnemySpeeds = new NativeArray<float>(EntitySummoner.EnemiesInGame.Count, Allocator.TempJob);
+            NativeArray<int> NodeIndices = new NativeArray<int>(EntitySummoner.EnemiesInGame.Count, Allocator.TempJob);
+            TransformAccessArray EnemyAccess = new TransformAccessArray(EntitySummoner.EnemiesInGameTransform.ToArray(), 2);
 
-            for (int i = 0; i < EntitySumoner.EnemiesInGame.Count; i++) 
+            for (int i = 0; i < EntitySummoner.EnemiesInGame.Count; i++) 
             {
-                EnemySpeeds[i] = EntitySumoner.EnemiesInGame[i].Speed;
-                NodeIndices[i] = EntitySumoner.EnemiesInGame[i].NodeIndex;
+                EnemySpeeds[i] = EntitySummoner.EnemiesInGame[i].Speed;
+                NodeIndices[i] = EntitySummoner.EnemiesInGame[i].NodeIndex;
             }
 
             MoveEnemiesJob MoveJob = new MoveEnemiesJob
@@ -89,13 +89,13 @@ public class GameLoopManager : MonoBehaviour
             JobHandle MoveJobHandle = MoveJob.Schedule(EnemyAccess);
             MoveJobHandle.Complete();
 
-            for (int i = 0; i < EntitySumoner.EnemiesInGame.Count; i++) 
+            for (int i = 0; i < EntitySummoner.EnemiesInGame.Count; i++) 
             {
-                EntitySumoner.EnemiesInGame[i].NodeIndex = NodeIndices[i];
+                EntitySummoner.EnemiesInGame[i].NodeIndex = NodeIndices[i];
 
-                if (EntitySumoner.EnemiesInGame[i].NodeIndex == NodePositions.Length) 
+                if (EntitySummoner.EnemiesInGame[i].NodeIndex == NodePositions.Length) 
                 {
-                    EnqueueEnemyToRemove(EntitySumoner.EnemiesInGame[i]);
+                    EnqueueEnemyToRemove(EntitySummoner.EnemiesInGame[i]);
                 }
             }
 
@@ -133,7 +133,7 @@ public class GameLoopManager : MonoBehaviour
             }
 
             //Tick Enemies
-            foreach (EnemyStats CurrentEnemy in EntitySumoner.EnemiesInGame)
+            foreach (EnemyStats CurrentEnemy in EntitySummoner.EnemiesInGame)
             {
                 CurrentEnemy.Tick();
             }
@@ -164,7 +164,7 @@ public class GameLoopManager : MonoBehaviour
             if (EnemiesToRemove.Count > 0) {
                 for (int i = 0; i < EnemiesToRemove.Count; i++)
                 {
-                    EntitySumoner.RemoveEnemy(EnemiesToRemove.Dequeue());
+                    EntitySummoner.RemoveEnemy(EnemiesToRemove.Dequeue());
                 }
             }
 

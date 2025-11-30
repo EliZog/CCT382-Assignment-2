@@ -42,13 +42,12 @@ public class EnemyStats : MonoBehaviour
                     GameLoopManager.EnqueueDamageData(new EnemyDamageData(this, ActiveEffects[i].Damage, 1f));
                     ActiveEffects[i].DamageDelay = 1f / ActiveEffects[i].DamageRate;
                 }
+
                 ActiveEffects[i].ExpireTime -= Time.deltaTime;
             }
 
-            ActiveEffects.RemoveAll(x => x.ExpireTime <= 0f);
-
-
         }
+        ActiveEffects.RemoveAll(x => x.ExpireTime <= 0f);
     }
 
     

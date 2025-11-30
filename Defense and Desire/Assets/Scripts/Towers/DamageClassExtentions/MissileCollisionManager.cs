@@ -32,7 +32,7 @@ public class MissileCollisionManager : MonoBehaviour
 
             for (int i = 0; i < EnemiesInRadius.Length; i++)
             {
-                EnemyStats EnemyToDamage = EntitySumoner.EnemyTransformPairs[EnemiesInRadius[i].transform.parent];
+                EnemyStats EnemyToDamage = EntitySummoner.EnemyTransformPairs[EnemiesInRadius[i].transform.parent];
                 EnemyDamageData DamageToApply = new EnemyDamageData(EnemyToDamage, BaseClass.Damage, EnemyToDamage.DamageResistance);
                 GameLoopManager.EnqueueDamageData(DamageToApply);
             }
