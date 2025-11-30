@@ -10,6 +10,8 @@ public class EnemyStats : MonoBehaviour
     [SerializeField] public bool isDead;
     [SerializeField] public List<EnemyTags> tags;
 
+    public List<Effect> ActiveEffects;
+
     public Transform RootPart;
     public int ID;
     public int NodeIndex;
@@ -25,6 +27,32 @@ public class EnemyStats : MonoBehaviour
         //lm = LevelManager.GetComponent<LevelManager>();
     }
 
+    public void Tick()
+    {
+        for (int i = 0; i < ActiveEffects.Count; i++)
+        {
+            if (ActiveEffects[i].ExpireTime > 0f)
+            {
+                if (ActiveEffects[i].DamageDelay > 0f)
+                {
+                    ActiveEffects[i].DamageDelay -= Time.deltaTime;
+                }
+                else
+                {
+                    GameLoopManager.EnqueueDamageData(new EnemyDamageData(this, ActiveEffects[i].Damage, 1f));
+                    ActiveEffects[i].DamageDelay = 1f / ActiveEffects[i].DamageRate;
+                }
+                ActiveEffects[i].ExpireTime -= Time.deltaTime;
+            }
+
+            ActiveEffects.RemoveAll(x => x.ExpireTime <= 0f);
+
+
+        }
+    }
+
+    
+    
     public virtual void CheckHealth()
     {
         if (health < 0)
@@ -74,6 +102,9 @@ public class EnemyStats : MonoBehaviour
     public virtual void InitVariables()
     {
         SetHealthTo(maxHealth);
+        ActiveEffects = new List<Effect>();
+
+
         isDead = false;
         transform.position = GameLoopManager.NodePositions[0];
         NodeIndex = 0;

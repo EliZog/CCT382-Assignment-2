@@ -6,6 +6,8 @@ public class EntitySumoner : MonoBehaviour
 {
     public static List<EnemyStats> EnemiesInGame;
     public static List<Transform> EnemiesInGameTransform;
+
+    public static Dictionary<Transform, EnemyStats> EnemyTransformPairs;
     public static Dictionary<int, GameObject> EnemyPrefabs;
     public static Dictionary<int, Queue<EnemyStats>> EnemyObjectPools;
 
@@ -14,6 +16,7 @@ public class EntitySumoner : MonoBehaviour
     public static void Init() {
         if (!isInitialized)
         {
+            EnemyTransformPairs = new Dictionary<Transform, EnemyStats>();
             EnemyPrefabs = new Dictionary<int, GameObject>();
             EnemyObjectPools = new Dictionary<int, Queue<EnemyStats>>();
             EnemiesInGameTransform = new List<Transform>();
@@ -67,8 +70,9 @@ public class EntitySumoner : MonoBehaviour
             Debug.Log($"ENTITYSUMMONER: ENEMY WITH ID OF {EnemyID} DOES NOT EXIST!");
             return null;
         }
-        if(!EnemiesInGame.Contains(SummonedEnemy)) EnemiesInGame.Add(SummonedEnemy);
+        if (!EnemiesInGame.Contains(SummonedEnemy)) EnemiesInGame.Add(SummonedEnemy);
         if (!EnemiesInGameTransform.Contains(SummonedEnemy.transform)) EnemiesInGameTransform.Add(SummonedEnemy.transform);
+        if (!EnemyTransformPairs.ContainsKey(SummonedEnemy.transform)) EnemyTransformPairs.Add(SummonedEnemy.transform, SummonedEnemy);
 
         SummonedEnemy.ID = EnemyID;
         return SummonedEnemy;
@@ -78,6 +82,8 @@ public class EntitySumoner : MonoBehaviour
     {
         EnemyObjectPools[EnemyToRemove.ID].Enqueue(EnemyToRemove);
         EnemyToRemove.gameObject.SetActive(false);
+
+        EnemyTransformPairs.Remove(EnemyToRemove.transform);
         EnemiesInGameTransform.Remove(EnemyToRemove.transform);
         EnemiesInGame.Remove(EnemyToRemove);
     }

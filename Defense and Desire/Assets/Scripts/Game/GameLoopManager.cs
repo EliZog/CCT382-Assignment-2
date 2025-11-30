@@ -12,6 +12,7 @@ public class GameLoopManager : MonoBehaviour
     public static Vector3[] NodePositions;
     public static float[] NodeDistances;
 
+    private static Queue<ApplyEffectData> EffectsQueue;
     private static Queue<EnemyDamageData> DamageData;
     private static Queue<EnemyStats> EnemiesToRemove;
     private static Queue<int> EnemyIDsToSummon;
@@ -21,6 +22,7 @@ public class GameLoopManager : MonoBehaviour
 
     private void Start()
     {
+        EffectsQueue = new Queue<ApplyEffectData>();
         DamageData = new Queue<EnemyDamageData>();
         TowersInGame = new List<TowerBehaviour>();
         EnemyIDsToSummon = new Queue<int>();
@@ -106,11 +108,36 @@ public class GameLoopManager : MonoBehaviour
 
             foreach (TowerBehaviour tower in TowersInGame)
             {
-                tower.Target = TowerTargeting.GetTarget(tower, TowerTargeting.TargetType.Last);
+                tower.Target = TowerTargeting.GetTarget(tower, TowerTargeting.TargetType.First);
                 tower.Tick();
             }
 
             // Apply Effects
+            if (EffectsQueue.Count > 0)
+            {
+                for (int i = 0; i < EffectsQueue.Count; i++)
+                {
+                    ApplyEffectData CurrentDamageData = EffectsQueue.Dequeue();
+                    Effect EffectDuplicate = CurrentDamageData.EnemyToAffect.ActiveEffects.Find(x => x.EffectName == CurrentDamageData.EffectToApply.EffectName);
+                    if (EffectDuplicate == null)
+                    {
+                        CurrentDamageData.EnemyToAffect.ActiveEffects.Add(CurrentDamageData.EffectToApply);
+                    }
+                    else
+                    {
+                        EffectDuplicate.ExpireTime = CurrentDamageData.EffectToApply.ExpireTime;
+                    }
+                    
+
+                }
+            }
+
+            //Tick Enemies
+            foreach (EnemyStats CurrentEnemy in EntitySumoner.EnemiesInGame)
+            {
+                CurrentEnemy.Tick();
+            }
+
 
             // Damage Enemies
 
@@ -123,7 +150,11 @@ public class GameLoopManager : MonoBehaviour
 
                     if (CurrentDamageData.TargetEnemy.health <= 0f)
                     {
-                        EnqueueEnemyToRemove(CurrentDamageData.TargetEnemy);
+                        if (!EnemiesToRemove.Contains(CurrentDamageData.TargetEnemy))
+                        {
+                            EnqueueEnemyToRemove(CurrentDamageData.TargetEnemy);
+                        }
+                        
                     }
                 }
             }
@@ -145,6 +176,11 @@ public class GameLoopManager : MonoBehaviour
         
     }
 
+    public static void EnqueueEffectToApply(ApplyEffectData effectData)
+    {
+        EffectsQueue.Enqueue(effectData);
+    }
+
     public static void EnqueueDamageData(EnemyDamageData damageData)
     {
         DamageData.Enqueue(damageData);
@@ -161,6 +197,38 @@ public class GameLoopManager : MonoBehaviour
     }
 }
 
+public class Effect
+{
+    public Effect(string effectName, float damageRate, float damage, float expireTime)
+    {
+        ExpireTime = expireTime;
+        EffectName = effectName;
+        DamageRate = damageRate;
+        Damage = damage;
+    }
+
+    public string EffectName;
+
+    public float DamageDelay;
+    public float DamageRate;
+    public float Damage;
+
+    public float ExpireTime;
+
+
+}
+
+public struct ApplyEffectData
+{
+    public ApplyEffectData(EnemyStats enemytoAffect, Effect effectToApply)
+    {
+        EnemyToAffect = enemytoAffect;
+        EffectToApply = effectToApply;
+    }
+
+    public EnemyStats EnemyToAffect;
+    public Effect EffectToApply;
+}
 public struct EnemyDamageData
 {
     public EnemyDamageData(EnemyStats target, float damage, float resistance)
