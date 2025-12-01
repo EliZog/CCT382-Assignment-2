@@ -11,11 +11,14 @@ public class StandardDamage : MonoBehaviour, IDamageMethod
     private float Damage;
     private float Firerate;
     private float Delay;
+    private TowerBehaviour Tower;
+
     public void Init(float Damage, float Firerate)
     {
         this.Damage = Damage;
         this.Firerate = Firerate;
         Delay = 1f / Firerate;
+        Tower = GetComponent<TowerBehaviour>();
     }
     public void DamageTick(EnemyStats Target)
     {
@@ -27,7 +30,9 @@ public class StandardDamage : MonoBehaviour, IDamageMethod
                 return;
             }
 
-            GameLoopManager.EnqueueDamageData(new EnemyDamageData(Target, Damage, Target.DamageResistance));
+            bool weakened = Target.health / Target.maxHealth <= 0.5;
+
+            GameLoopManager.EnqueueDamageData(new EnemyDamageData(Target, Tower.Upgrade3 && weakened ? Damage * 2 : Damage, Target.DamageResistance));
             Delay = 1f / Firerate;
         }
         

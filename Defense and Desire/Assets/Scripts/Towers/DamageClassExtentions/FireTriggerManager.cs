@@ -9,11 +9,9 @@ public class FireTriggerManager : MonoBehaviour
         
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Should apply fire effect");
             Effect FlameEffect = new Effect("Fire", BaseClass.Firerate, BaseClass.Damage, 5f);
             ApplyEffectData EffectData = new ApplyEffectData(EntitySummoner.EnemyTransformPairs[other.transform.parent], FlameEffect);
             GameLoopManager.EnqueueEffectToApply(EffectData);
         }
-        Debug.Log(other.gameObject.tag);
     }
 }

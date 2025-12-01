@@ -15080,9 +15080,12 @@ MonoBehaviour:
   LoopShouldEnd: 0
   Waves:
   - enemies:
-    - enemyID: 2
-      count: 1
+    - enemyID: 1
+      count: 4
       spawnInterval: 1
+    - enemyID: 4
+      count: 3
+      spawnInterval: 3
     delayAfterWave: 5
   - enemies:
     - enemyID: 3

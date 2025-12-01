@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class TowerTargeting
     }
 
 
-    public static EnemyStats GetTarget(TowerBehaviour currentTower, TargetType targetMethod)
+    public static EnemyStats GetTarget(TowerBehaviour currentTower, TargetType targetMethod, List<TowerTags.Tags> tags)
     {
         if (currentTower == null) return null;
 
@@ -165,7 +166,7 @@ public class TowerTargeting
 
                 switch (TargetingType)
                 {
-                    case 0: // First – smallest distance to end
+                    case 0: // First ï¿½ smallest distance to end
                         {
                             float distToEnd = GetDistanceToEnd(enemy);
                             if (distToEnd < compare)
@@ -176,7 +177,7 @@ public class TowerTargeting
                             break;
                         }
 
-                    case 1: // Last – largest distance to end
+                    case 1: // Last ï¿½ largest distance to end
                         {
                             float distToEnd = GetDistanceToEnd(enemy);
                             if (distToEnd > compare)
@@ -187,7 +188,7 @@ public class TowerTargeting
                             break;
                         }
 
-                    case 2: // Close – smallest distance to tower
+                    case 2: // Close ï¿½ smallest distance to tower
                         {
                             float distToTower = Vector3.Distance(
                                 TowerPosition,
