@@ -15083,13 +15083,16 @@ MonoBehaviour:
     - enemyID: 1
       count: 4
       spawnInterval: 1
+    - enemyID: 2
+      count: 5
+      spawnInterval: 1
     - enemyID: 4
       count: 3
       spawnInterval: 3
     delayAfterWave: 5
   - enemies:
     - enemyID: 3
-      count: 1
+      count: 20
       spawnInterval: 1
     delayAfterWave: 3
 --- !u!4 &965211484
