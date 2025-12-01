@@ -144,8 +144,7 @@ public class GameLoopManager : MonoBehaviour
         UpdateWaveButtonState();
 
         StartCoroutine(GameLoop());
-        // Auto-start first wave
-        StartNextWave();
+        
     }
 
 

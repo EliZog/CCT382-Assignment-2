@@ -15081,12 +15081,12 @@ MonoBehaviour:
   Waves:
   - enemies:
     - enemyID: 2
-      count: 1
+      count: 5
       spawnInterval: 1
     delayAfterWave: 5
   - enemies:
     - enemyID: 3
-      count: 1
+      count: 20
       spawnInterval: 1
     delayAfterWave: 3
 --- !u!4 &965211484
