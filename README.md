@@ -111,11 +111,11 @@ This repository will contain:
 ---
 
 ## Roadmap
-- [ ] Core tower defence loop  
-- [ ] Tower personalities and dialogue system  
+- [x] Core tower defence loop  
+- [x] Tower personalities and dialogue system  
 - [ ] Relationship mechanics  
 - [ ] Tower conflicts and compatibility  
-- [ ] Enemy waves  
-- [ ] UI/UX pass  
+- [x] Enemy waves  
+- [x] UI/UX pass  
 - [ ] Sound, animations, and VFX  
 
