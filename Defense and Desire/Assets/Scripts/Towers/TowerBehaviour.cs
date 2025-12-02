@@ -81,17 +81,17 @@ public class TowerBehaviour : MonoBehaviour
         if (Upgrade1 && first1)
         {
             first1 = false;
-            GunnerUpgrade1();
+            MissileUpgrade1();
         }
         if (Upgrade2 && first2) 
         {
             first2 = false;
-            GunnerUpgrade2();
+            MissileUpgrade2();
         }
         if (Upgrade3 && first3) 
         {
             first3 = false;
-            GunnerUpgrade3();
+            MissileUpgrade3();
         }
     }
 
@@ -114,5 +114,29 @@ public class TowerBehaviour : MonoBehaviour
     {
         Upgrade3 = true;
         Debug.Log("Gunner Upgraded to level 3!");
+    }
+
+    public void MissileUpgrade1()
+    {
+        Upgrade1 = true;
+        Tags.Add(TowerTags.Tags.ArmourPiercing);
+        Debug.Log("Missile Upgraded to level 1!");
+    }
+
+    public void MissileUpgrade2()
+    {
+        Upgrade2 = true;
+        Damage = 20;
+        MissileCollisionManager temp = GetComponentInChildren<MissileCollisionManager>();
+        temp.ExplosionRadius = 3;
+        Debug.Log("Missile Upgraded to level 2!");
+    }
+
+    public void MissileUpgrade3()
+    {
+        Upgrade3 = true;
+        MissileCollisionManager temp = GetComponentInChildren<MissileCollisionManager>();
+        temp.ShellShock = true;
+        Debug.Log("Missile Upgraded to level 3!");
     }
 }

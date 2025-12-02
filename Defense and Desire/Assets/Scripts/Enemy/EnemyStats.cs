@@ -15,8 +15,11 @@ public class EnemyStats : MonoBehaviour
     public Transform RootPart;
     public int ID;
     public int NodeIndex;
-    public int Speed;
+    public float MaxSpeed;
+    public float Speed;
+    public float SpeedDebuff;
     public float DamageResistance = 1f;
+    public bool Stun;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,18 +33,40 @@ public class EnemyStats : MonoBehaviour
         {
             if (ActiveEffects[i].ExpireTime > 0f)
             {
+                if (ActiveEffects[i].EffectName == "Stun")
+                {
+                    Debug.Log("Stun should be applied");
+                    Stun = true;
+                }
+                
+                // figure out how to stack slow debuffs from lasers. 
+                // Lasers must be distinct for effects to stack. Maybe a Dict of {ID: debuff}?
+                if (ActiveEffects[i].EffectName == "Slow")
+                {
+                    // slow mechanics
+                }
+
                 if (ActiveEffects[i].DamageDelay > 0f)
                 {
                     ActiveEffects[i].DamageDelay -= Time.deltaTime;
                 }
                 else
                 {
-                    GameLoopManager.EnqueueDamageData(new EnemyDamageData(this, ActiveEffects[i].Damage, 1f));
+                    GameLoopManager.EnqueueDamageData(new EnemyDamageData(this, ActiveEffects[i].Damage, 1f, ActiveEffects[i].SpeedDebuff));
                     ActiveEffects[i].DamageDelay = 1f / ActiveEffects[i].DamageRate;
                 }
 
+                Speed = Stun ? 0 : MaxSpeed;
+
                 ActiveEffects[i].ExpireTime -= Time.deltaTime;
+
+                
             }
+
+            else if (ActiveEffects[i].EffectName == "Stun") 
+                Stun = false;
+
+            // handle laser slow debuffs
 
         }
 
@@ -100,6 +125,8 @@ public class EnemyStats : MonoBehaviour
     {
         SetHealthTo(maxHealth);
         ActiveEffects = new List<Effect>();
+        Speed = MaxSpeed;
+        Stun = false;
 
         isDead = false;
         transform.position = GameLoopManager.NodePositions[0];

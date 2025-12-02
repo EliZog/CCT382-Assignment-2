@@ -75,11 +75,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   Target: {fileID: 0}
+  TargetType: 0
   TowerPivot: {fileID: 8991229900423444678}
   SummonCost: 250
-  Damage: 5
-  Firerate: 1
-  Range: 5
+  Damage: 10
+  Firerate: 0.5
+  Range: 3
+  Tags: 
+  Upgrade1: 0
+  Upgrade2: 0
+  Upgrade3: 0
 --- !u!114 &4937519637262323008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,7 +102,7 @@ MonoBehaviour:
     m_Bits: 64
   MissileSystem: {fileID: 8698568842378677508}
   TowerHead: {fileID: 8991229900423444678}
-  Damage: 4
+  Damage: 10
 --- !u!108 &-333922896992568928
 Light:
   m_ObjectHideFlags: 0
@@ -317,6 +322,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4236064142587593492, guid: 15bb3b9f50cfa6149a4db97303abbb7d, type: 3}
+      propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4236064142587593492, guid: 15bb3b9f50cfa6149a4db97303abbb7d, type: 3}
       propertyPath: lengthInSec
       value: 10
       objectReference: {fileID: 0}
@@ -350,7 +359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4236064142587593492, guid: 15bb3b9f50cfa6149a4db97303abbb7d, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4236064142587593492, guid: 15bb3b9f50cfa6149a4db97303abbb7d, type: 3}
       propertyPath: CollisionModule.collidesWith.m_Bits
@@ -441,7 +450,7 @@ MonoBehaviour:
   BaseClass: {fileID: 4937519637262323008}
   ExplosionSystem: {fileID: 1245825266204322716}
   MissileSystem: {fileID: 8698568842378677508}
-  ExplosionRadius: 3
+  ExplosionRadius: 1.5
 --- !u!198 &8698568842378677508 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 4236064142587593492, guid: 15bb3b9f50cfa6149a4db97303abbb7d, type: 3}
@@ -549,11 +558,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   Target: {fileID: 0}
+  TargetType: 0
   TowerPivot: {fileID: 0}
   SummonCost: 100
   Damage: 0
   Firerate: 0
   Range: 0
+  Tags: 
+  Upgrade1: 0
+  Upgrade2: 0
+  Upgrade3: 0
 --- !u!1001 &8792265702652608021
 PrefabInstance:
   m_ObjectHideFlags: 0

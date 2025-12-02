@@ -32,7 +32,7 @@ public class StandardDamage : MonoBehaviour, IDamageMethod
 
             bool weakened = Target.health / Target.maxHealth <= 0.5;
 
-            GameLoopManager.EnqueueDamageData(new EnemyDamageData(Target, Tower.Upgrade3 && weakened ? Damage * 2 : Damage, Target.DamageResistance));
+            GameLoopManager.EnqueueDamageData(new EnemyDamageData(Target, Tower.Upgrade3 && weakened ? Damage * 2 : Damage, Target.DamageResistance, 0));
             Delay = 1f / Firerate;
         }
         

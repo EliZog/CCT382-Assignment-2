@@ -8776,7 +8776,7 @@ GameObject:
   - component: {fileID: 390955675}
   - component: {fileID: 390955674}
   m_Layer: 5
-  m_Name: PlaceBasic
+  m_Name: PlaceGunner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15080,6 +15080,11 @@ MonoBehaviour:
   LoopShouldEnd: 0
   Waves:
   - enemies:
+    - enemyID: 3
+      count: 20
+      spawnInterval: 1
+    delayAfterWave: 3
+  - enemies:
     - enemyID: 1
       count: 4
       spawnInterval: 1
@@ -15090,11 +15095,6 @@ MonoBehaviour:
       count: 3
       spawnInterval: 3
     delayAfterWave: 5
-  - enemies:
-    - enemyID: 3
-      count: 20
-      spawnInterval: 1
-    delayAfterWave: 3
 --- !u!4 &965211484
 Transform:
   m_ObjectHideFlags: 0

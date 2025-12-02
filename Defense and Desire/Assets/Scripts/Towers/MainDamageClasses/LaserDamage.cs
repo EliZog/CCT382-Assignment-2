@@ -30,7 +30,8 @@ public class LaserDamage : MonoBehaviour, IDamageMethod
                 return;
             }
 
-            GameLoopManager.EnqueueDamageData(new EnemyDamageData(Target, Damage, Target.DamageResistance));
+            // apply laser slow effect
+            GameLoopManager.EnqueueDamageData(new EnemyDamageData(Target, Damage, Target.DamageResistance, 0));
             Delay = 1f / Firerate;
             return;
         }

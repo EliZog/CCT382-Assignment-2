@@ -78,7 +78,7 @@ MonoBehaviour:
   TargetType: 0
   TowerPivot: {fileID: 4937892075473219353}
   SummonCost: 100
-  Damage: 2.5
+  Damage: 5
   Firerate: 1
   Range: 4
   Tags: 

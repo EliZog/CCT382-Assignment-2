@@ -389,12 +389,13 @@ public class GameLoopManager : MonoBehaviour
 
 public class Effect
 {
-    public Effect(string effectName, float damageRate, float damage, float expireTime)
+    public Effect(string effectName, float damageRate, float damage, float expireTime, int speedDebuff)
     {
         ExpireTime = expireTime;
         EffectName = effectName;
         DamageRate = damageRate;
         Damage = damage;
+        SpeedDebuff = speedDebuff;
     }
 
     public string EffectName;
@@ -404,6 +405,7 @@ public class Effect
     public float Damage;
 
     public float ExpireTime;
+    public int SpeedDebuff;
 
 
 }
@@ -421,16 +423,18 @@ public struct ApplyEffectData
 }
 public struct EnemyDamageData
 {
-    public EnemyDamageData(EnemyStats target, float damage, float resistance)
+    public EnemyDamageData(EnemyStats target, float damage, float resistance, float speedDebuff)
     {
         TargetEnemy = target;
         TotalDamage = damage;
         Resistance = resistance;
+        SpeedDebuff = speedDebuff;
     }
 
     public EnemyStats TargetEnemy;
     public float TotalDamage;
     public float Resistance;
+    public float SpeedDebuff;
 }
 
 public struct MoveEnemiesJob : IJobParallelForTransform

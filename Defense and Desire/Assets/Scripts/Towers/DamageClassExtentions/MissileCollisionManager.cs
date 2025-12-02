@@ -6,12 +6,14 @@ public class MissileCollisionManager : MonoBehaviour
     [SerializeField] private MissileDamage BaseClass;
     [SerializeField] private ParticleSystem ExplosionSystem;
     [SerializeField] private ParticleSystem MissileSystem;
-    [SerializeField] private float ExplosionRadius;
+    public float ExplosionRadius;
+    public bool ShellShock;
     private List<ParticleCollisionEvent> MissileCollisions;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         MissileCollisions = new List<ParticleCollisionEvent>();
+        ShellShock = false;
     }
 
     // Update is called once per frame
@@ -33,8 +35,16 @@ public class MissileCollisionManager : MonoBehaviour
             for (int i = 0; i < EnemiesInRadius.Length; i++)
             {
                 EnemyStats EnemyToDamage = EntitySummoner.EnemyTransformPairs[EnemiesInRadius[i].transform.parent];
-                EnemyDamageData DamageToApply = new EnemyDamageData(EnemyToDamage, BaseClass.Damage, EnemyToDamage.DamageResistance);
+                EnemyDamageData DamageToApply = new EnemyDamageData(EnemyToDamage, BaseClass.Damage, EnemyToDamage.DamageResistance, 0);
                 GameLoopManager.EnqueueDamageData(DamageToApply);
+
+                if (ShellShock)
+                {
+                    Debug.Log("Shell Shock Ability has been activated");
+                    Effect ShellShockEffect = new Effect("ShellShock", 0, 0, 1f, 0);
+                    ApplyEffectData EffectData = new ApplyEffectData(EnemyToDamage, ShellShockEffect);
+                    GameLoopManager.EnqueueEffectToApply(EffectData);
+                }
             }
         }
     }

@@ -50,6 +50,19 @@ public class TowerTargeting
             if (currentEnemy == null)
                 continue;
 
+            // DEBUG WITH ELIAS // 
+
+            Debug.Log("Enemy ID: " + currentEnemy.ID);
+
+            bool AP = currentEnemy.ID == 3 && !tags.Contains(TowerTags.Tags.ArmourPiercing);
+
+            Debug.Log("AP tag: " + AP);
+
+            if (AP)
+                continue;
+            
+            Debug.Log("AP enemy is being incorrectly targeted");
+
             int enemyIndexInList =
                 EntitySummoner.EnemiesInGame.FindIndex(x => x == currentEnemy);
 
@@ -137,6 +150,8 @@ public class TowerTargeting
         public int NodeIndex;
         public float Health;
         public float MaxHealth;
+
+
     }
 
     struct SearchForEnemy : IJob
