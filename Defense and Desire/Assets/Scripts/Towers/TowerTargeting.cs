@@ -52,16 +52,16 @@ public class TowerTargeting
 
             // DEBUG WITH ELIAS // 
 
-            Debug.Log("Enemy ID: " + currentEnemy.ID);
+            // Debug.Log("Enemy ID: " + currentEnemy.ID);
 
-            bool AP = currentEnemy.ID == 3 && !tags.Contains(TowerTags.Tags.ArmourPiercing);
+            // bool AP = currentEnemy.ID == 3 && !tags.Contains(TowerTags.Tags.ArmourPiercing);
 
-            Debug.Log("AP tag: " + AP);
+            // Debug.Log("AP tag: " + AP);
 
-            if (AP)
-                continue;
+            // if (AP)
+            //     continue;
             
-            Debug.Log("AP enemy is being incorrectly targeted");
+            // Debug.Log("AP enemy is being incorrectly targeted");
 
             int enemyIndexInList =
                 EntitySummoner.EnemiesInGame.FindIndex(x => x == currentEnemy);
