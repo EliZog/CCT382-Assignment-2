@@ -9,7 +9,6 @@ using UnityEngine.UIElements;
 
 public class GameLoopManager : MonoBehaviour
 {
-
     public static List<TowerBehaviour> TowersInGame;
     public static Vector3[] NodePositions;
     public static float[] NodeDistances;
@@ -24,8 +23,6 @@ public class GameLoopManager : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button NextWaveButton;
     [SerializeField] private GameObject GameOverScreen;
     [SerializeField] private GameObject VictoryScreen;
-
-
 
     public Transform NodeParent;
     public bool LoopShouldEnd;
@@ -50,10 +47,8 @@ public class GameLoopManager : MonoBehaviour
     private bool _waveIsRunning = false;
 
     private bool hasWon = false; // guard so we only trigger once
-
-    // Exposed counters
-    public int MaxWaves { get; private set; }        // total number of waves
-    public int CurrentWave { get; private set; }     // 1-based, 0 means "no wave started yet"
+    public int MaxWaves { get; private set; }
+    public int CurrentWave { get; private set; }
 
     private void UpdateWaveText()
     {
@@ -68,8 +63,6 @@ public class GameLoopManager : MonoBehaviour
 
         NextWaveButton.interactable = !_waveIsRunning;
     }
-
-    
 
     private void Victory()
     {
@@ -99,7 +92,6 @@ public class GameLoopManager : MonoBehaviour
             GameOverScreen.SetActive(true);
         }
     }
-
 
     private void Start()
     {
@@ -144,9 +136,7 @@ public class GameLoopManager : MonoBehaviour
         UpdateWaveButtonState();
 
         StartCoroutine(GameLoop());
-        
     }
-
 
     void SummonTest()
     {
@@ -207,8 +197,6 @@ public class GameLoopManager : MonoBehaviour
             StartCoroutine(WaveLoop());
         }
     }
-
-
 
     IEnumerator GameLoop() 
     {
