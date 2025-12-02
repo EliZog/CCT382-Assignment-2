@@ -272,10 +272,10 @@ public class GameLoopManager : MonoBehaviour
 
             foreach (TowerBehaviour tower in TowersInGame)
             {
-                tower.Target = TowerTargeting.GetTarget(tower, TowerTargeting.TargetType.Strong);
+                tower.Target = TowerTargeting.GetTarget(tower, tower.TargetType, tower.Tags);
                 tower.Tick();
             }
-
+            
             // Apply Effects
             if (EffectsQueue.Count > 0)
             {
