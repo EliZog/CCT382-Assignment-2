@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TowerTags
@@ -17,6 +18,8 @@ public class TowerBehaviour : MonoBehaviour
     public EnemyStats Target;
     public TowerTargeting.TargetType TargetType;
     public Transform TowerPivot;
+    public Canvas UpgradeMenu;
+    public bool Menu;
 
     public int SummonCost = 100;
     public float Damage;
@@ -46,6 +49,10 @@ public class TowerBehaviour : MonoBehaviour
         CurrentDamageMethodClass = GetComponent<IDamageMethod>();
         Tags = new List<TowerTags.Tags>();
 
+        Menu = false;
+        UpgradeMenu.enabled = false;
+        UpgradeMenu.gameObject.SetActive(false);
+
         Upgrade1 = false;
         Upgrade2 = false;
         Upgrade3 = false;
@@ -73,26 +80,31 @@ public class TowerBehaviour : MonoBehaviour
         }
     }
 
-    /* 
-    *   *** THIS IS FOR TESTING; REMOVE WHEN NEEDED *** 
-    */
     public void Update()
     {
-        if (Upgrade1 && first1)
-        {
-            first1 = false;
-            FlamethrowerUpgrade1();
-        }
-        if (Upgrade2 && first2) 
-        {
-            first2 = false;
-            FlamethrowerUpgrade2();
-        }
-        if (Upgrade3 && first3) 
-        {
-            first3 = false;
-            FlamethrowerUpgrade3();
-        }
+        /* --- THIS IS FOR TESTING PURPOSES --- */
+        // if (Upgrade1 && first1)
+        // {
+        //     first1 = false;
+        //     FlamethrowerUpgrade1();
+        // }
+        // if (Upgrade2 && first2) 
+        // {
+        //     first2 = false;
+        //     FlamethrowerUpgrade2();
+        // }
+        // if (Upgrade3 && first3) 
+        // {
+        //     first3 = false;
+        //     FlamethrowerUpgrade3();
+        // }
+    }
+
+    public void ToggleMenu()
+    {
+        Menu = !Menu;
+        UpgradeMenu.enabled = Menu;
+        UpgradeMenu.gameObject.SetActive(Menu);
     }
 
     public void GunnerUpgrade1()
