@@ -41,7 +41,7 @@ public class MissileCollisionManager : MonoBehaviour
                 if (ShellShock)
                 {
                     Debug.Log("Shell Shock Ability has been activated");
-                    Effect ShellShockEffect = new Effect("ShellShock", 0, 0, 1f, 0);
+                    Effect ShellShockEffect = new Effect("Stun", 0, 0, 0.25f, 0);
                     ApplyEffectData EffectData = new ApplyEffectData(EnemyToDamage, ShellShockEffect);
                     GameLoopManager.EnqueueEffectToApply(EffectData);
                 }

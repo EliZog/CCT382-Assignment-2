@@ -83,21 +83,21 @@ public class TowerBehaviour : MonoBehaviour
     public void Update()
     {
         /* --- THIS IS FOR TESTING PURPOSES --- */
-        // if (Upgrade1 && first1)
-        // {
-        //     first1 = false;
-        //     FlamethrowerUpgrade1();
-        // }
-        // if (Upgrade2 && first2) 
-        // {
-        //     first2 = false;
-        //     FlamethrowerUpgrade2();
-        // }
-        // if (Upgrade3 && first3) 
-        // {
-        //     first3 = false;
-        //     FlamethrowerUpgrade3();
-        // }
+        if (Upgrade1 && first1)
+        {
+            first1 = false;
+            MissileUpgrade1();
+        }
+        if (Upgrade2 && first2)
+        {
+            first2 = false;
+            MissileUpgrade2();
+        }
+        if (Upgrade3 && first3)
+        {
+            first3 = false;
+            MissileUpgrade3();
+        }
     }
 
     public void ToggleMenu()
@@ -149,6 +149,7 @@ public class TowerBehaviour : MonoBehaviour
         Upgrade3 = true;
         MissileCollisionManager temp = GetComponentInChildren<MissileCollisionManager>();
         temp.ShellShock = true;
+        //Debug.Log(temp.ShellShock);
         Debug.Log("Missile Upgraded to level 3!");
     }
 
