@@ -86,17 +86,17 @@ public class TowerBehaviour : MonoBehaviour
         if (Upgrade1 && first1)
         {
             first1 = false;
-            MissileUpgrade1();
+            FlamethrowerUpgrade1();
         }
         if (Upgrade2 && first2)
         {
             first2 = false;
-            MissileUpgrade2();
+            FlamethrowerUpgrade2();
         }
         if (Upgrade3 && first3)
         {
             first3 = false;
-            MissileUpgrade3();
+            FlamethrowerUpgrade3();
         }
     }
 
@@ -172,10 +172,8 @@ public class TowerBehaviour : MonoBehaviour
         Upgrade3 = true;
         FlamethrowerDamage temp = GetComponent<FlamethrowerDamage>();
         temp.Cerbereus = true;
-        temp.FireTrigger.enabled = false;
-        temp.FireTrigger2.enabled = true;
-        temp.FireTrigger3.enabled = true;
-        temp.FireTrigger4.enabled = true;
+
+        temp.extraFireTriggers.SetActive(true);
         temp.FireEffect.startSpeed = 10;
         Debug.Log("Flamethrower Upgraded to level 3!");
     }

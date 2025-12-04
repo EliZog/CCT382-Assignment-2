@@ -4,9 +4,7 @@ public class FlamethrowerDamage : MonoBehaviour, IDamageMethod
 {
 
     public Collider FireTrigger;
-    public Collider FireTrigger2;
-    public Collider FireTrigger3;
-    public Collider FireTrigger4;
+    public GameObject extraFireTriggers;
 
     public ParticleSystem FireEffect;
     public ParticleSystem FireEffect2;
@@ -29,9 +27,8 @@ public class FlamethrowerDamage : MonoBehaviour, IDamageMethod
             FireTrigger.enabled = Target != null;
         else
         {
-            FireTrigger2.enabled = Target != null;
-            FireTrigger3.enabled = Target != null;
-            FireTrigger4.enabled = Target != null;
+            extraFireTriggers.SetActive(Target != null);
+
         }
 
         if (Target)

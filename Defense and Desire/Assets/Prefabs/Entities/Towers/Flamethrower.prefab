@@ -1052,7 +1052,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6777223582832907601
 Transform:
   m_ObjectHideFlags: 0
@@ -1061,12 +1061,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3007311004775489999}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.27873862, w: 0.960367}
-  m_LocalPosition: {x: -1.171, y: 0.667, z: 0}
-  m_LocalScale: {x: 1, y: 1.7195631, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.27873865, w: 0.9603671}
+  m_LocalPosition: {x: -1.1709394, y: 0.6669922, z: 0}
+  m_LocalScale: {x: 1, y: 1.719563, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 569230746786755547}
+  m_Father: {fileID: 2877524895674424156}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -32.37}
 --- !u!65 &3691227679441970677
 BoxCollider:
@@ -1102,6 +1102,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   BaseClass: {fileID: 1778537196854629340}
+--- !u!1 &3422575673819131419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2877524895674424156}
+  m_Layer: 3
+  m_Name: ExtraTriggers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2877524895674424156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3422575673819131419}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6777223582832907601}
+  - {fileID: 12152035847289980}
+  m_Father: {fileID: 569230746786755547}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3632992339633068466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1132,9 +1165,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8088218113924874482}
-  - {fileID: 2243936480251152689}
-  - {fileID: 6777223582832907601}
-  - {fileID: 12152035847289980}
+  - {fileID: 2877524895674424156}
   m_Father: {fileID: 7288535011427595385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3732187662238740135
@@ -1413,73 +1444,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &5478615454479559610
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2243936480251152689}
-  - component: {fileID: 8106673760972386436}
-  - component: {fileID: 1703534303458035752}
-  m_Layer: 8
-  m_Name: FireTrigger2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2243936480251152689
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5478615454479559610}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.032, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.7195631, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 569230746786755547}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8106673760972386436
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5478615454479559610}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.5, y: 0.3, z: 0.3}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1703534303458035752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5478615454479559610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c099e81df647cf34cb1032aadc63070e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
-  BaseClass: {fileID: 1778537196854629340}
 --- !u!1 &5485803287010536441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1626,6 +1590,7 @@ MonoBehaviour:
   TargetType: 0
   TowerPivot: {fileID: 8719996180744529855}
   UpgradeMenu: {fileID: 5059735737226242157}
+  Menu: 0
   SummonCost: 300
   Damage: 3
   Firerate: 5
@@ -1647,9 +1612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlamethrowerDamage
   FireTrigger: {fileID: 4418536952082615938}
-  FireTrigger2: {fileID: 8106673760972386436}
-  FireTrigger3: {fileID: 3691227679441970677}
-  FireTrigger4: {fileID: 6052821720526188419}
+  extraFireTriggers: {fileID: 3422575673819131419}
   FireEffect: {fileID: 7484890496807145108}
   FireEffect2: {fileID: 1374299102622216836}
   FireEffect3: {fileID: 1943991835264064867}
@@ -2316,7 +2279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &12152035847289980
 Transform:
   m_ObjectHideFlags: 0
@@ -2325,12 +2288,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8128461916133838634}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.36682305, w: 0.9302907}
-  m_LocalPosition: {x: -1.111, y: -0.891, z: 0}
-  m_LocalScale: {x: 1, y: 1.7195631, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.36682308, w: 0.93029076}
+  m_LocalPosition: {x: -1.1110029, y: -0.8909912, z: 0}
+  m_LocalScale: {x: 1, y: 1.719563, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 569230746786755547}
+  m_Father: {fileID: 2877524895674424156}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 43.04}
 --- !u!65 &6052821720526188419
 BoxCollider:
@@ -2682,6 +2645,7 @@ MonoBehaviour:
   TargetType: 0
   TowerPivot: {fileID: 0}
   UpgradeMenu: {fileID: 0}
+  Menu: 0
   SummonCost: 100
   Damage: 0
   Firerate: 0
