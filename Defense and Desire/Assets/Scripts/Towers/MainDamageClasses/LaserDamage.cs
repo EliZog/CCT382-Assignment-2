@@ -8,12 +8,15 @@ public class LaserDamage : MonoBehaviour, IDamageMethod
     private float Damage;
     private float Firerate;
     private float Delay;
+    private float BaseDamage;
 
     public void Init(float Damage, float Firerate)
     {
         this.Damage = Damage;
         this.Firerate = Firerate;
         Delay = 1f / Firerate;
+        BaseDamage = Damage;
+
     }
     public void DamageTick(EnemyStats Target)
     {
@@ -33,7 +36,12 @@ public class LaserDamage : MonoBehaviour, IDamageMethod
             // apply laser slow effect
             GameLoopManager.EnqueueDamageData(new EnemyDamageData(Target, Damage, Target.DamageResistance, 0));
             Delay = 1f / Firerate;
+            Damage *= 2;
             return;
+        }
+        else
+        {
+            Damage = BaseDamage;
         }
         LaserRenderer.enabled = false;
     }

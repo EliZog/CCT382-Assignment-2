@@ -177,4 +177,26 @@ public class TowerBehaviour : MonoBehaviour
         temp.FireEffect.startSpeed = 10;
         Debug.Log("Flamethrower Upgraded to level 3!");
     }
+
+    public void LaserUpgrade1()
+    {
+        Upgrade1 = true;
+        Tags.Add(TowerTags.Tags.ColdHearted);
+        Debug.Log("Laser Upgraded to level 1!");
+    }
+
+    public void LaserUpgrade2()
+    {
+        Upgrade2 = true;
+        Firerate = 10;
+        Debug.Log("Laser Upgraded to level 2!");
+    }
+
+    public void LaserUpgrade3()
+    {
+        Upgrade3 = true;
+        LaserDamage temp = GetComponent<LaserDamage>();
+
+        Debug.Log("Laser Upgraded to level 3!");
+    }
 }
