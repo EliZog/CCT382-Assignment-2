@@ -519,9 +519,10 @@ MonoBehaviour:
   TargetType: 0
   TowerPivot: {fileID: 4547942072367624619}
   UpgradeMenu: {fileID: 7116607524342960167}
+  Menu: 0
   SummonCost: 200
   Damage: 0.2
-  Firerate: 25
+  Firerate: 5
   Range: 5
   Tags: 
   Upgrade1: 0
@@ -541,6 +542,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LaserDamage
   LaserPivot: {fileID: 5533716442915970415}
   LaserRenderer: {fileID: 6536215259364787199}
+  Damage: 0.2
+  Firerate: 5
+  Delay: 0.2
+  BaseDamage: 0.2
+  PrevTarget: {fileID: 0}
 --- !u!108 &-2837741121304044076
 Light:
   m_ObjectHideFlags: 0
@@ -2555,6 +2561,7 @@ MonoBehaviour:
   TargetType: 0
   TowerPivot: {fileID: 0}
   UpgradeMenu: {fileID: 0}
+  Menu: 0
   SummonCost: 100
   Damage: 0
   Firerate: 0

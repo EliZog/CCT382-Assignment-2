@@ -5,12 +5,12 @@ public class EnemyStats : MonoBehaviour
 {
     public enum EnemyTags {Armoured, Flying, Charming, Vehicle, Bleeding}
 
-    [SerializeField] public float health;
-    [SerializeField] public float maxHealth;
-    [SerializeField] public bool isDead;
-    [SerializeField] public List<EnemyTags> tags;
+    public float health;
+    public float maxHealth;
+    public bool isDead;
 
-    [SerializeField] public List<Effect> ActiveEffects;
+    public List<EnemyTags> tags;
+    public List<Effect> ActiveEffects;
 
     public Transform RootPart;
     public int ID;
@@ -29,21 +29,24 @@ public class EnemyStats : MonoBehaviour
 
     public void Tick()
     {
+        Debug.Log("Active Effects: " + ActiveEffects.Count);
+
         for (int i = 0; i < ActiveEffects.Count; i++)
         {
             if (ActiveEffects[i].ExpireTime > 0f)
             {
                 if (ActiveEffects[i].EffectName == "Stun")
                 {
-                    Debug.Log("Stun should be applied");
+                    // Debug.Log("Stun should be applied");
                     Stun = true;
+                    Speed = 0;
                 }
                 
-                // figure out how to stack slow debuffs from lasers. 
-                // Lasers must be distinct for effects to stack. Maybe a Dict of {ID: debuff}?
-                if (ActiveEffects[i].EffectName == "Slow")
+                else if (ActiveEffects[i].EffectName == "Slow")
                 {
-                    // slow mechanics
+                    Speed -= ActiveEffects[i].SpeedDebuff;
+                    Speed = Speed < 0 ? 0 : Speed;
+                    Debug.Log("Current Speed: " + Speed);
                 }
 
                 if (ActiveEffects[i].DamageDelay > 0f)
@@ -56,17 +59,21 @@ public class EnemyStats : MonoBehaviour
                     ActiveEffects[i].DamageDelay = 1f / ActiveEffects[i].DamageRate;
                 }
 
-                Speed = Stun ? 0 : MaxSpeed;
+                //Speed = Stun ? 0 : MaxSpeed;
 
                 ActiveEffects[i].ExpireTime -= Time.deltaTime;
 
                 
             }
 
-            else if (ActiveEffects[i].EffectName == "Stun") 
+            else if (ActiveEffects[i].EffectName == "Stun")
+            {
                 Stun = false;
+                Speed = MaxSpeed;
+            }
 
-            // handle laser slow debuffs
+            else if (ActiveEffects[i].EffectName == "Slow")
+                Speed += ActiveEffects[i].SpeedDebuff;
 
         }
 

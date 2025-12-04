@@ -54,7 +54,7 @@ public class GameLoopManager : MonoBehaviour
     {
         if (WavesText == null) return;
 
-        WavesText.text = $"{CurrentWave} / {MaxWaves}";
+        WavesText.text = $"{CurrentWave}/{MaxWaves}";
     }
 
     private void UpdateWaveButtonState()
@@ -284,8 +284,9 @@ public class GameLoopManager : MonoBehaviour
                     ApplyEffectData CurrentDamageData = EffectsQueue.Dequeue();
                     Effect EffectDuplicate = CurrentDamageData.EnemyToAffect.ActiveEffects.Find(x => x.EffectName == CurrentDamageData.EffectToApply.EffectName);
                     
-                    if (EffectDuplicate == null)
+                    if (EffectDuplicate == null || EffectDuplicate.EffectName == "Slow")
                     {
+                        Debug.Log("Slow affect should be applied");
                         CurrentDamageData.EnemyToAffect.ActiveEffects.Add(CurrentDamageData.EffectToApply);
                     }
                     else
@@ -377,7 +378,7 @@ public class GameLoopManager : MonoBehaviour
 
 public class Effect
 {
-    public Effect(string effectName, float damageRate, float damage, float expireTime, int speedDebuff)
+    public Effect(string effectName, float damageRate, float damage, float expireTime, float speedDebuff)
     {
         ExpireTime = expireTime;
         EffectName = effectName;
@@ -393,7 +394,7 @@ public class Effect
     public float Damage;
 
     public float ExpireTime;
-    public int SpeedDebuff;
+    public float SpeedDebuff;
 
 
 }
