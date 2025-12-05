@@ -12,6 +12,7 @@ public class PlayerStats : MonoBehaviour
 
     public Camera PlayerCamera;
     public LayerMask Towers;
+    public TowerBehaviour PrevMenu;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -19,6 +20,7 @@ public class PlayerStats : MonoBehaviour
         CurrentMoney = StartingMoney;
         CurrentHealth = StartingHealth;
         MoneyDisplayText.SetText($"${StartingMoney}");
+        PrevMenu = null;
     }
 
     public void Update()
@@ -35,7 +37,12 @@ public class PlayerStats : MonoBehaviour
             {
                 //Debug.Log("Tower Click registered");
                 TowerBehaviour temp = HitInfo.collider.gameObject.GetComponent<TowerBehaviour>();
+
+                if (PrevMenu != null && PrevMenu != temp)
+                    PrevMenu.ToggleMenu();
+
                 temp.ToggleMenu();
+                PrevMenu = temp;
             }
         }
     }
