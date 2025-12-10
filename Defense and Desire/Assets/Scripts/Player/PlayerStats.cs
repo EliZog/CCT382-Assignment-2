@@ -9,6 +9,7 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private int StartingHealth;
     private int CurrentMoney;
     private float CurrentHealth;
+    public bool Dialogue;
 
     public Camera PlayerCamera;
     public LayerMask Towers;
@@ -21,13 +22,14 @@ public class PlayerStats : MonoBehaviour
         CurrentHealth = StartingHealth;
         MoneyDisplayText.SetText($"${StartingMoney}");
         PrevMenu = null;
+        Dialogue = false;
     }
 
     public void Update()
     {
         // Make sure only one upgrade menu can exist at a time
 
-        if (Input.GetMouseButtonDown(0))
+        if (!Dialogue && Input.GetMouseButtonDown(0))
         {
             //Debug.Log("Mouse click registered ");
             Ray camray = PlayerCamera.ScreenPointToRay(Input.mousePosition);
@@ -38,7 +40,7 @@ public class PlayerStats : MonoBehaviour
                 //Debug.Log("Tower Click registered");
                 TowerBehaviour temp = HitInfo.collider.gameObject.GetComponent<TowerBehaviour>();
 
-                if (PrevMenu != null && PrevMenu != temp)
+                if (PrevMenu != null && PrevMenu.Menu && PrevMenu != temp)
                     PrevMenu.ToggleMenu();
 
                 temp.ToggleMenu();

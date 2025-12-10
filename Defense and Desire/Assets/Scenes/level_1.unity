@@ -13903,18 +13903,22 @@ MonoBehaviour:
   Waves:
   - enemies:
     - enemyID: 1
-      count: 4
+      count: 1
       spawnInterval: 1
-    - enemyID: 2
-      count: 5
-      spawnInterval: 1
-    - enemyID: 4
-      count: 3
-      spawnInterval: 3
     delayAfterWave: 5
   - enemies:
-    - enemyID: 3
-      count: 20
+    - enemyID: 1
+      count: 1
+      spawnInterval: 1
+    delayAfterWave: 3
+  - enemies:
+    - enemyID: 1
+      count: 1
+      spawnInterval: 1
+    delayAfterWave: 3
+  - enemies:
+    - enemyID: 1
+      count: 1
       spawnInterval: 1
     delayAfterWave: 3
 --- !u!4 &965211484
@@ -19289,6 +19293,7 @@ MonoBehaviour:
   HealthDisplayText: {fileID: 370717258}
   StartingMoney: 800
   StartingHealth: 40
+  Dialogue: 0
   PlayerCamera: {fileID: 963194227}
   Towers:
     serializedVersion: 2
@@ -20632,7 +20637,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1153652979
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20652,7 +20657,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.50006104, y: 0.5}
   m_SizeDelta: {x: -1, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1153652980
@@ -24531,10 +24536,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1763234404}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -499.99994, y: 80.33331}
-  m_SizeDelta: {x: -9800.667, y: -311.66666}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 1.6079102, y: 169.974}
+  m_SizeDelta: {x: 700.9404, y: 123.69299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1528575098
 MonoBehaviour:
@@ -24583,12 +24588,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 20
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 20
   m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -24599,7 +24604,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 0
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -27489,7 +27494,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -250, y: 9}
+  m_AnchoredPosition: {x: -250, y: -30}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1838125727
@@ -29039,7 +29044,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1952632051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29053,7 +29058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
   m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
+  m_BlockingObjects: 3
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -29069,12 +29074,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
