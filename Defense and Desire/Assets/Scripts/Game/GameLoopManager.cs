@@ -181,6 +181,13 @@ public class GameLoopManager : MonoBehaviour
             yield return null;
         }
 
+        // reset all tower dialogue buttons
+        foreach (TowerBehaviour Tower in TowersInGame)
+        {
+            if (Tower.level < 3)
+                Tower.ResetDialogue();
+        }
+
         _currentWaveIndex++;
         _waveIsRunning = false;
         UpdateWaveButtonState(); // re-enable button

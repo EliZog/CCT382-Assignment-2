@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-//using Microsoft.Unity.VisualStudio.Editor;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,8 +14,29 @@ public class TowerTags
 
 public class TowerBehaviour : MonoBehaviour
 {
+    [System.Serializable]
+    public class Dialogue
+    {
+        public string speaker;
+        public string dialogue;
+    }
+
+    public class DialogueScene
+    {
+        public Dialogue[] lines;
+        public int answer;
+    }
+
+    [System.Serializable]
+    public class TowerDialogue
+    {
+        public DialogueScene[] DialogueInteractions;
+    }
+
     public LayerMask EnemiesLayer;
-    
+    public TextAsset JSON;
+    public TowerDialogue towerDialogue;
+
     public EnemyStats Target;
     public TowerTargeting.TargetType TargetType;
     public Transform TowerPivot;
@@ -33,6 +53,14 @@ public class TowerBehaviour : MonoBehaviour
     public int ExpNeeded;
     public int Exp;
     public int level;
+
+    public Canvas NovelUI;
+    public TextMeshProUGUI NameBox;
+    public TextMeshProUGUI DialogueBox;
+
+     public bool talking;
+    public int D_index = 0;
+    public int S_index = 0;
 
     public bool Upgrade1;
     public bool Upgrade2;
@@ -68,13 +96,24 @@ public class TowerBehaviour : MonoBehaviour
         CurrentDamageMethodClass = GetComponent<IDamageMethod>();
         Tags = new List<TowerTags.Tags>();
 
+        towerDialogue = new TowerDialogue();
+        towerDialogue = JsonUtility.FromJson<TowerDialogue>(JSON.text);
+
+        foreach (DialogueScene DI in towerDialogue.DialogueInteractions)
+        {
+            Debug.Log("Answer: " + DI.answer);
+        }
+
         Menu = false;
         UpgradeMenu.enabled = false;
         UpgradeMenu.gameObject.SetActive(false);
+        FlirtButton.interactable = false;
 
         ExpNeeded = 2;
         Exp = 0;
         level = 0;
+        talking = false;
+        S_index = 0;
 
         Upgrade1 = false;
         Upgrade2 = false;
@@ -149,6 +188,39 @@ public class TowerBehaviour : MonoBehaviour
             UpgradeButton3.interactable = false;
         }
 
+
+        if (talking) 
+        {
+            if (D_index < towerDialogue.DialogueInteractions[S_index].lines.Length - 1)
+            {
+                if(Input.GetMouseButtonDown(0))
+                {
+                    D_index += 1;
+                    DisplayDialogue();
+                }
+            }
+            else
+            {
+                bool flag1 = Input.GetKey(KeyCode.Alpha1);
+                bool flag2 = Input.GetKey(KeyCode.Alpha2);
+                bool flag3 = Input.GetKey(KeyCode.Alpha3);
+
+                int answer = towerDialogue.DialogueInteractions[S_index].answer;
+
+                if (flag1 || flag2 || flag3)
+                {
+                    Debug.Log("1: " + flag1 + "\n2: " + flag2 + "\n3: " + flag3);
+
+                    if ((flag1 && answer == 1) || (flag2 && answer == 2) || (flag3 && answer == 3))
+                        IncreaseRelationship();
+                        S_index += 1;
+
+                    NovelUI.enabled = false;
+                    NovelUI.gameObject.SetActive(false);
+                    talking = false;
+                }
+            }
+        }
     }
 
     public void ToggleMenu()
@@ -156,6 +228,28 @@ public class TowerBehaviour : MonoBehaviour
         Menu = !Menu;
         UpgradeMenu.enabled = Menu;
         UpgradeMenu.gameObject.SetActive(Menu);
+    }
+
+    public void ResetDialogue()
+    {
+        FlirtButton.interactable = true;
+    }
+
+    public void StartDialogue()
+    {
+        talking = true;
+        NovelUI.enabled = true;
+        NovelUI.gameObject.SetActive(true);
+        FlirtButton.interactable = false;
+
+        D_index = 0;
+        DisplayDialogue();
+    }
+
+    public void DisplayDialogue()
+    {
+        NameBox.text = towerDialogue.DialogueInteractions[S_index].lines[D_index].speaker;
+        DialogueBox.text = towerDialogue.DialogueInteractions[S_index].lines[D_index].dialogue;
     }
 
     public void IncreaseRelationship()
