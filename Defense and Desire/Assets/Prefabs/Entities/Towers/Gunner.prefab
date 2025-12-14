@@ -462,12 +462,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf6c4980b25f249b3e498c1a3e3b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBehaviour
+  TowerName: Gunner
   EnemiesLayer:
     serializedVersion: 2
     m_Bits: 64
   JSON: {fileID: 4900000, guid: 83017c139a39742d3a66e6eb03a34b0b, type: 3}
-  towerDialogue:
-    DialogueInteractions: []
   Target: {fileID: 0}
   TargetType: 0
   TowerPivot: {fileID: 4937892075473219353}
@@ -484,8 +483,9 @@ MonoBehaviour:
   NovelUI: {fileID: 1120363456877683270}
   NameBox: {fileID: 1905405036238100769}
   DialogueBox: {fileID: 307879772290763146}
-  D_index: 0
   talking: 0
+  D_index: 0
+  S_index: 0
   Upgrade1: 0
   Upgrade2: 0
   Upgrade3: 0
@@ -4339,12 +4339,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf6c4980b25f249b3e498c1a3e3b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TowerBehaviour
+  TowerName: 
   EnemiesLayer:
     serializedVersion: 2
     m_Bits: 0
   JSON: {fileID: 0}
-  towerDialogue:
-    DialogueInteractions: []
   Target: {fileID: 0}
   TargetType: 0
   TowerPivot: {fileID: 0}
@@ -4361,8 +4360,9 @@ MonoBehaviour:
   NovelUI: {fileID: 0}
   NameBox: {fileID: 0}
   DialogueBox: {fileID: 0}
-  D_index: 0
   talking: 0
+  D_index: 0
+  S_index: 0
   Upgrade1: 0
   Upgrade2: 0
   Upgrade3: 0

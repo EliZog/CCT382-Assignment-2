@@ -22,7 +22,7 @@
                 },
                 {
                     "speaker": "Gunner",
-                    "dialogue": "I see what I want and I take it. Can't handle my heat? Then get out my kitchen"
+                    "dialogue": "I see what I want and I take it. Can't handle my heat? Then get out the kitchen"
                 },
                 {
                     "speaker": "Player",
@@ -40,7 +40,7 @@
                 },
                 {
                     "speaker": "Player",
-                    "dialogue": "Oh shit, I’ll get an engineer right away."
+                    "dialogue": "Oh shit, I'll get an engineer right away."
                 },
                 {
                     "speaker": "Gunner",
@@ -156,7 +156,7 @@
                 },
                 {
                     "speaker": "Player",
-                    "dialogue": "1. Depends on your definition of 'winning'\n2. Well, not with that attitude!\n3. Well, have you by my side certainly helps handsome."
+                    "dialogue": "1. Depends on your definition of 'winning'\n2. Well, not with that attitude!\n3. Well, having you by my side certainly helps handsome."
                 }
             ],
             "answer": 3
