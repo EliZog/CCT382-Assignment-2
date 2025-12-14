@@ -20,6 +20,7 @@ public class EnemyStats : MonoBehaviour
     public float SpeedDebuff;
     public float DamageResistance = 1f;
     public bool Stun;
+    public bool Slow;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -41,11 +42,11 @@ public class EnemyStats : MonoBehaviour
                     Stun = true;
                     Speed = 0;
                 }
-                
-                else if (ActiveEffects[i].EffectName == "Slow")
+
+                if (ActiveEffects[i].EffectName == "Slow")
                 {
-                    Speed -= ActiveEffects[i].SpeedDebuff;
-                    Speed = Speed < 0 ? 0 : Speed;
+                    Slow = true;
+                    Speed = MaxSpeed / 2;
                     Debug.Log("Current Speed: " + Speed);
                 }
 
@@ -73,7 +74,11 @@ public class EnemyStats : MonoBehaviour
             }
 
             else if (ActiveEffects[i].EffectName == "Slow")
-                Speed += ActiveEffects[i].SpeedDebuff;
+            {
+                Slow = false;
+                Speed = MaxSpeed;
+                Debug.Log("Speed buff should be taken away");
+            }
 
         }
 

@@ -46,7 +46,7 @@ public class LaserDamage : MonoBehaviour, IDamageMethod
             Delay = 1f / Firerate;
             Damage *= 1.2f;
 
-            Effect SlowEffect = new Effect("Slow", 0, 0, 1f, 0.2f);
+            Effect SlowEffect = new Effect("Slow", 0, 0, 0.2f, 0);
             ApplyEffectData EffectData = new ApplyEffectData(Target, SlowEffect);
             GameLoopManager.EnqueueEffectToApply(EffectData);
 

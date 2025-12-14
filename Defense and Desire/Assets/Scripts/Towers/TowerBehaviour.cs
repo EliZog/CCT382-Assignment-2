@@ -511,7 +511,7 @@ public class TowerBehaviour : MonoBehaviour
     {
         Upgrade3 = true;
         LaserDamage temp = GetComponent<LaserDamage>();
-
+        temp.BaseDamage = 1;
         Debug.Log("Laser Upgraded to level 3!");
     }
 }

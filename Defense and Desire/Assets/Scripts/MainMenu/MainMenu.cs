@@ -6,6 +6,11 @@ public class MainMenu : MonoBehaviour
     public GameObject overlay;
     public GameObject optionsPanel;
 
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void PlayGame()
     {
         SceneManager.LoadScene(1);
