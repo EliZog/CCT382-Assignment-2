@@ -14,6 +14,7 @@ public class PlayerStats : MonoBehaviour
     public Camera PlayerCamera;
     public LayerMask Towers;
     public TowerBehaviour PrevMenu;
+    public Canvas PauseMenu;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -27,7 +28,11 @@ public class PlayerStats : MonoBehaviour
 
     public void Update()
     {
-        // Make sure only one upgrade menu can exist at a time
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseMenu.enabled = !PauseMenu.enabled;
+            PauseMenu.gameObject.SetActive(PauseMenu.enabled);
+        }
 
         if (!Dialogue && Input.GetMouseButtonDown(0))
         {
@@ -47,6 +52,11 @@ public class PlayerStats : MonoBehaviour
                 PrevMenu = temp;
             }
         }
+    }
+
+    public void IsTalking(bool value)
+    {
+        Dialogue = value;
     }
 
     public void AddMoney(int MoneyToAdd)

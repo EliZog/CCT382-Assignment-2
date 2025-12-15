@@ -59,6 +59,7 @@ public class TowerBehaviour : MonoBehaviour
     public TextAsset JSON;
     public TowerDialogue towerDialogue;
 
+    public PlayerStats playerStats;
     public EnemyStats Target;
     public TowerTargeting.TargetType TargetType;
     public Transform TowerPivot;
@@ -128,6 +129,8 @@ public class TowerBehaviour : MonoBehaviour
 
         CurrentDamageMethodClass = GetComponent<IDamageMethod>();
         Tags = new List<TowerTags.Tags>();
+
+        playerStats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
 
         //towerDialogue = new TowerDialogue();
         //towerDialogue = JsonUtility.FromJson<TowerDialogue>(JSON.text);
@@ -246,6 +249,7 @@ public class TowerBehaviour : MonoBehaviour
                     NovelUI.enabled = false;
                     NovelUI.gameObject.SetActive(false);
                     talking = false;
+                    playerStats.IsTalking(false);
                 }
             }
         }
@@ -266,6 +270,8 @@ public class TowerBehaviour : MonoBehaviour
     public void StartDialogue()
     {
         talking = true;
+        playerStats.IsTalking(true);
+
         NovelUI.enabled = true;
         NovelUI.gameObject.SetActive(true);
         FlirtButton.interactable = false;
