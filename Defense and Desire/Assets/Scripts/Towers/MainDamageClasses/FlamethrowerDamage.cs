@@ -9,6 +9,7 @@ public class FlamethrowerDamage : MonoBehaviour, IDamageMethod
     public ParticleSystem FireEffect;
     public ParticleSystem FireEffect2;
     public ParticleSystem FireEffect3;
+    public AudioSource Audio;
 
     public float Damage;
     public float Firerate;
@@ -18,6 +19,7 @@ public class FlamethrowerDamage : MonoBehaviour, IDamageMethod
     {
         this.Damage = Damage;
         this.Firerate = Firerate;
+        Audio = GetComponent<AudioSource>();
     }
 
     public void DamageTick(EnemyStats Target)
@@ -33,6 +35,9 @@ public class FlamethrowerDamage : MonoBehaviour, IDamageMethod
 
         if (Target)
         {
+            if (!Audio.isPlaying)
+                Audio.Play();
+
             if (!FireEffect.isPlaying) 
                 FireEffect.Play();
 
@@ -49,6 +54,7 @@ public class FlamethrowerDamage : MonoBehaviour, IDamageMethod
         }
 
         FireEffect.Stop();
+        //Audio.Stop();
 
         if (Cerbereus)
         {

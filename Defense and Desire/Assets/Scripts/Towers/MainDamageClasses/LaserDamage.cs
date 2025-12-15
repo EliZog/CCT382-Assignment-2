@@ -4,6 +4,7 @@ public class LaserDamage : MonoBehaviour, IDamageMethod
 {
     public Transform LaserPivot;
     public LineRenderer LaserRenderer;
+    public AudioSource Audio;
 
     public float Damage;
     public float Firerate;
@@ -18,6 +19,7 @@ public class LaserDamage : MonoBehaviour, IDamageMethod
         Delay = 1f / Firerate;
         BaseDamage = Damage;
         PrevTarget = null;
+        Audio = GetComponent<AudioSource>();
 
     }
     public void DamageTick(EnemyStats Target)
@@ -43,6 +45,8 @@ public class LaserDamage : MonoBehaviour, IDamageMethod
 
             // apply laser slow effect
             GameLoopManager.EnqueueDamageData(new EnemyDamageData(Target, Damage, Target.DamageResistance, 0));
+            if (!Audio.isPlaying)
+                Audio.Play();
             Delay = 1f / Firerate;
             Damage *= 1.2f;
 

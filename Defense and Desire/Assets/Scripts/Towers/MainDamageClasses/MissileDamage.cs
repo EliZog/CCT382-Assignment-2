@@ -4,6 +4,7 @@ public class MissileDamage : MonoBehaviour, IDamageMethod
     public LayerMask EnemiesLayer;
     [SerializeField] private ParticleSystem MissileSystem;
     [SerializeField] private Transform TowerHead;
+    public AudioSource Audio;
 
     private ParticleSystem.MainModule MissileSystemMain; 
     public float Damage;
@@ -14,6 +15,7 @@ public class MissileDamage : MonoBehaviour, IDamageMethod
         this.Damage = Damage;
         this.Firerate = Firerate;
         Delay = 1f / Firerate;
+        Audio = GetComponent<AudioSource>();
     } 
     public void DamageTick(EnemyStats Target)
     {
@@ -32,6 +34,7 @@ public class MissileDamage : MonoBehaviour, IDamageMethod
             MissileSystem.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
 
             MissileSystem.Play();
+            Audio.Play();
 
             Delay = 1f / Firerate;
         } 

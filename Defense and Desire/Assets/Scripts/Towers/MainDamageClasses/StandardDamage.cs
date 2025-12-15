@@ -12,6 +12,7 @@ public class StandardDamage : MonoBehaviour, IDamageMethod
     private float Firerate;
     private float Delay;
     private TowerBehaviour Tower;
+    public AudioSource Audio;
 
     public void Init(float Damage, float Firerate)
     {
@@ -19,6 +20,7 @@ public class StandardDamage : MonoBehaviour, IDamageMethod
         this.Firerate = Firerate;
         Delay = 1f / Firerate;
         Tower = GetComponent<TowerBehaviour>();
+        Audio = GetComponent<AudioSource>();
     }
     public void DamageTick(EnemyStats Target)
     {
@@ -33,6 +35,7 @@ public class StandardDamage : MonoBehaviour, IDamageMethod
             bool weakened = Target.health / Target.maxHealth <= 0.5;
 
             GameLoopManager.EnqueueDamageData(new EnemyDamageData(Target, Tower.Upgrade3 && weakened ? Damage * 2 : Damage, Target.DamageResistance, 0));
+            Audio.Play();
             Delay = 1f / Firerate;
         }
         
