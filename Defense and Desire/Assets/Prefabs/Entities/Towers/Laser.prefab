@@ -49,7 +49,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3259480868396357053
 RectTransform:
   m_ObjectHideFlags: 0
@@ -958,7 +958,7 @@ MonoBehaviour:
   TowerPivot: {fileID: 4547942072367624619}
   UpgradeMenu: {fileID: 7116607524342960167}
   Menu: 0
-  SummonCost: 200
+  SummonCost: 150
   Damage: 0.2
   Firerate: 5
   Range: 5
@@ -3969,7 +3969,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &716278337271604307
 RectTransform:
   m_ObjectHideFlags: 0

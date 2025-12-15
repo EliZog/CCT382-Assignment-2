@@ -164,11 +164,12 @@ MonoBehaviour:
   RootPart: {fileID: 2491770140724197777}
   ID: 3
   NodeIndex: 0
-  MaxSpeed: 2
-  Speed: 2
+  MaxSpeed: 3
+  Speed: 3
   SpeedDebuff: 0
   DamageResistance: 1
   Stun: 0
+  Slow: 0
 --- !u!54 &8094139291235202752
 Rigidbody:
   m_ObjectHideFlags: 0

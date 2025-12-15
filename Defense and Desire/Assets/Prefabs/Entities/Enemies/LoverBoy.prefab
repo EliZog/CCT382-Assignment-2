@@ -47,17 +47,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
   health: 0
-  maxHealth: 20
+  maxHealth: 80
   isDead: 0
   tags: 
   RootPart: {fileID: 8051439254336960808}
   ID: 5
   NodeIndex: 0
-  MaxSpeed: 3
-  Speed: 3
+  MaxSpeed: 2
+  Speed: 2
   SpeedDebuff: 0
   DamageResistance: 1
   Stun: 0
+  Slow: 0
 --- !u!54 &-690168990767954899
 Rigidbody:
   m_ObjectHideFlags: 0
